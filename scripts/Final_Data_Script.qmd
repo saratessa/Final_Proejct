@@ -1,12 +1,18 @@
 ---
 title: "Final_Project"
 author: "Songyi Ahn, Nakyung Lee, Nishat Parvez"
-format: pdf
+format:
+  html:
+   highlight-style: tango
+   code-fold: true
+   toc: true
+   toc-depth: 5
+   toc-location: left
 execute:
   echo: true
+  eval: true
   warning: false
   message: false
-  eval: true
 editor: visual
 ---
 
@@ -321,7 +327,7 @@ cancer_2 <- cancer %>%
   filter(telehealth !="Missing")
 ```
 
-## RQ3_2. Grouping by cancer risk perception groups
+## RQ3_2. Grouping by Cancer Risk Perception Groups
 
 ```{r}
 # Reshape cancer risk perceptions into one longer column
