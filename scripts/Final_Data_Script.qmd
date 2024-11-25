@@ -1,20 +1,31 @@
 ---
 title: "Final_Project"
+author: "Songyi Ahn, Nakyung Lee, Nishat Parvez"
 format: pdf
 execute:
   echo: false
+  warning: false
   message: false
 editor: visual
 ---
 
-## RQ2_1. Loading and Renaming the dataset
+# Common Work
+
+## Loading Packages
 
 ```{r}
-#| message: false
-#| warning: false
+#| echo: false
+#| include: false
 
+library(tidyverse)
 library(here)
+library(rio)
+library(knitr)
+```
 
+## Loading and Renaming the dataset
+
+```{r}
 # Load the file
 file_path <- here("data", "hints6_public.rda")
 load(file_path)
@@ -23,14 +34,19 @@ load(file_path)
 hints <- public
 ```
 
-## RQ2_2. Data Cleaning
+# RQ1.
+
+## RQ1_1. Data Cleaning
 
 ```{r}
-#| message: false
-#| warning: false
+#this is for Nishat's work 
+```
 
-library(dplyr)
+# RQ2.
 
+## RQ2_1. Data Cleaning
+
+```{r}
 # Selecting relevant columns for RQ2
 
 data_nl <- hints %>% 
@@ -57,14 +73,9 @@ data_nl_2 <- data_nl %>%
   filter(telehealth !="Missing")
 ```
 
-## RQ2_3. Grouping by Social Media Engagement Levels: pivot_longer()
+## RQ2_2. Grouping by Social Media Engagement Levels: pivot_longer()
 
 ```{r}
-#| message: false
-#| warning: false
-
-library(tidyr)
-
 # Reshape SM engagement categories into one longer engagement_type column
 
 data_long <- data_nl_2 %>% 
@@ -83,14 +94,9 @@ data_freq_eng_group <- data_long %>%
   mutate(eng_lev_group = case_when(sum_eng_lev >= 3 & sum_eng_lev <= 6 ~ "Low", sum_eng_lev >= 7 & sum_eng_lev <= 10 ~ "Medium", sum_eng_lev >= 11 & sum_eng_lev <= 15 ~ "High"))
 ```
 
-## RQ2_4. Data Visualization
+## RQ2_3. Data Visualization
 
 ```{r}
-#| message: false
-#| warning: false
-
-library(ggplot2)
-
 # Social Media Frequency x Telehealth
 
 ggplot(data_freq_eng_group, aes(x = telehealth, fill = as.factor(sm_freq)))+
@@ -108,12 +114,9 @@ ggplot(data_freq_eng_group, aes(x = telehealth, fill = eng_lev_group)) +
   labs(title = "Telehealth Usage by Social Media Engagement Levels", x = "Telehealth", y = "Count", fill = "Social Media Engagement Levels")
 ```
 
-## RQ2_5. Summary Statistics
+## RQ2_4. Summary Statistics
 
 ```{r}
-#| message: false
-#| warning: false
-
 # Social Media Frequency X Telehealth 
 
 summary_table_sm_freq <- data_freq_eng_group %>% 
@@ -157,4 +160,153 @@ summary_table_eng_lev_stats <- data_long %>%
   as.data.frame()
 
 print(summary_table_eng_lev_stats)
+```
+
+# RQ3.
+
+## RQ3_1. Data Cleaning
+
+```{r}
+# Selecting relevant columns for RQ3
+cancer <- hints %>% 
+  select(HHID, ReceiveTelehealthCare, InterestedCaScreening, FreqWorryCancer, ChanceGetCancer2, EverythingCauseCancer, PreventNotPossible)
+
+# Renaming each column
+cancer <- cancer %>% 
+  rename(telehealth = ReceiveTelehealthCare, 
+         screening = InterestedCaScreening, 
+         worry = FreqWorryCancer, 
+         chance = ChanceGetCancer2, 
+         cause = EverythingCauseCancer, 
+         prevent = PreventNotPossible)
+
+# Recoding responses
+cancer <- cancer %>% 
+  mutate(telehealth = 
+           recode(telehealth, 
+                  "No telehealth visits in the past 12 months" = "No", 
+                  "Yes, by video" = "Yes", 
+                  "Yes, by phone call (voice only with no video)" = "Yes", 
+                  "Yes, some by video and some by phone call" = "Yes", 
+                  "Missing data (Web partial - Question Never Seen)" = "Missing", 
+                  "Missing data (Not Ascertained)" = "Missing"))
+
+# Creating a dataset for 5 point Likert scale
+cancer_2 <- cancer %>% 
+  mutate(screening = 
+           recode(screening, 
+                  "Missing data (Not Ascertained)" = NA_real_, 
+                  "Missing data (Web partial - Question Never Seen)" = NA_real_, 
+                  "Multiple responses selected in error" = NA_real_, 
+                  "Not at all" = 1, 
+                  "A little" = 2, 
+                  "Somewhat" = 3, 
+                  "Very" = 4, 
+                  "Not applicable/I am up-to-date with screening tests" = 5), 
+         worry = 
+           recode(worry, 
+                  "Missing data (Not Ascertained)" = NA_real_, 
+                  "Missing data (Web partial - Question Never Seen)" = NA_real_,
+                  "Multiple responses selected in error" = NA_real_,
+                  "Not at all" = 1, 
+                  "Slightly" = 2, 
+                  "Somewhat" = 3, 
+                  "Moderately" = 4, 
+                  "Extremely" = 5), 
+         chance = 
+           recode(chance, 
+                  "Missing data (Not Ascertained)" = NA_real_, 
+                  "Missing data (Web partial - Question Never Seen)" = NA_real_,
+                  "Multiple responses selected in error" = NA_real_,
+                  "I already had cancer" = NA_real_,
+                  "I don't know" = NA_real_,
+                  "Very unlikely" = 1, 
+                  "Unlikely" = 2, 
+                  "Neither likely nor unlikely" = 3, 
+                  "Likely" = 4, 
+                  "Very likely" = 5), 
+         cause = 
+           recode(cause, 
+                  "Missing data (Not Ascertained)" = NA_real_, 
+                  "Missing data (Web partial - Question Never Seen)" = NA_real_,
+                  "Multiple responses selected in error" = NA_real_,
+                  "Strongly disagree" = 1, 
+                  "Somewhat disagree" = 2, 
+                  "Somewhat agree" = 4, 
+                  "Strongly agree" = 5), 
+         prevent = 
+           recode(prevent, 
+                  "Missing data (Not Ascertained)" = NA_real_, 
+                  "Missing data (Web partial - Question Never Seen)" = NA_real_, 
+                  "Multiple responses selected in error" = NA_real_, 
+                  "Strongly disagree" = 1, 
+                  "Somewhat disagree" = 2, 
+                  "Somewhat agree" = 4, 
+                  "Strongly agree" = 5)) %>% 
+  filter(!is.na(screening)) %>% 
+  filter(!is.na(worry)) %>% 
+  filter(!is.na(chance)) %>% 
+  filter(!is.na(cause)) %>%
+  filter(!is.na(prevent)) %>%
+  filter(telehealth !="Missing")
+```
+
+## RQ3_2. Grouping by cancer risk perception groups
+
+```{r}
+# Reshape cancer risk perceptions into one longer column
+cancer_long <- cancer_2 %>% 
+  pivot_longer(
+    cols = c(screening, worry, chance, cause, prevent), 
+    names_to = "riskperceptiontype", 
+    values_to = "riskperceptiondegree"
+  )
+
+# Low, medium, high grouping
+cancer_long <- cancer_long %>% 
+  group_by(HHID) %>% 
+  mutate(riskperceptionlevel = mean(riskperceptiondegree, na.rm = TRUE))
+
+# Keeping only one risk perception degree value per household id
+cancer_risk_group <- cancer_long %>% 
+  distinct(HHID, telehealth, riskperceptionlevel) %>% 
+  mutate(risk_group = 
+           case_when(
+             riskperceptionlevel <= 1.67 ~ "Low", 
+             riskperceptionlevel <= 3.33 ~ "Medium", 
+             riskperceptionlevel <= 5 ~ "High"))
+```
+
+## RQ3_3. Data Visualization
+
+```{r}
+# Cancer Risk Levels X Telehealth
+cancer_risk_group %>%
+  mutate(risk_group = factor(risk_group, levels = c("Low", "Medium", "High"))) %>%
+  ggplot(aes(x = risk_group, fill = telehealth)) +
+  geom_bar(position = "dodge") +
+  theme_minimal() +
+  labs(title = "Telehealth Usage by Cancer Risk Perception Levels", 
+       x = "Cancer Risk Perception Level", 
+       y = "Number of Responses", 
+       fill = "Telehealth Usage")
+```
+
+## RQ3_4. Summary Statistics
+
+```{r}
+# Cancer Risk Levels X Telehealth
+summary_table_cancer_risk_group <- cancer_risk_group %>% 
+  group_by(telehealth, risk_group) %>% 
+  summarize(count = n()) %>% 
+  mutate(percentage = round(count/sum(count)*100, 2))
+kable(summary_table_cancer_risk_group)
+
+# Mean, Median, SD for SME X Telehealth
+summary_table_cancer_risk_stats <- cancer_long %>% 
+  group_by(telehealth) %>% 
+  summarize(riskperception_mean = round(mean(riskperceptiondegree), 2), 
+            riskperception_median = median(riskperceptiondegree), 
+            riskperception_sd = round(sd(riskperceptiondegree), 2))
+kable(summary_table_cancer_risk_stats)
 ```
