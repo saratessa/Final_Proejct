@@ -25,9 +25,12 @@ editor: visual
 #| include: false
 
 library(tidyverse)
+library(dplyr)
+library(tidyr)
 library(here)
 library(rio)
 library(knitr)
+library(ggplot2)
 ```
 
 ## Loading and Renaming the dataset
@@ -46,7 +49,173 @@ hints <- public
 ## RQ1_1. Data Cleaning
 
 ```{r}
-#this is for Nishat's work 
+# Selecting relevant columns for RQ1
+health_data <- hints %>%
+  select(AgeGrpA, AgeGrpB, BirthGender, RaceEthn, RaceEthn5, RACE_CAT2, Education, IncomeRanges, ReceiveTelehealthCare)
+
+# Combine Age groups into a single variable
+health_data <- health_data %>%
+  mutate(Age = paste(AgeGrpA, AgeGrpB, sep = ", "))
+
+# Standardize Ethnicity categories
+health_data <- health_data %>%
+  mutate(Ethnicity = case_when(
+    RaceEthn %in% c("White", "Caucasian") ~ "White",
+    RaceEthn %in% c("Black", "African American") ~ "Black or African American",
+    RaceEthn %in% c("Hispanic", "Latino") ~ "Hispanic or Latino",
+    RaceEthn %in% c("Asian", "Pacific Islander") ~ "Asian or Pacific Islander",
+    TRUE ~ "Other"
+  ))
+
+# Rename columns
+health_data <- health_data %>%
+  rename(Telehealth = ReceiveTelehealthCare,
+         Gender = BirthGender,
+         Income = IncomeRanges)
+
+# Recoding responses for Telehealth
+health_data <- health_data %>%
+  mutate(Telehealth = recode(Telehealth,
+                             "No telehealth visits in the past 12 months" = "No",
+                             "Yes, by video" = "Yes",
+                             "Yes, by phone call (voice only with no video)" = "Yes",
+                             "Yes, some by video and some by phone call" = "Yes",
+                             "Missing data (Web partial - Question Never Seen)" = "Missing",
+                             "Missing data (Not Ascertained)" = "Missing"))
+
+# Remove rows with missing or invalid data
+health_data_clean <- health_data %>%
+  filter(
+    !is.na(Telehealth) & Telehealth != "Missing",
+    !is.na(Gender),
+    !is.na(Education),
+    !is.na(Income),
+    !is.na(Ethnicity),
+    !is.na(Age))
+
+# Pivot longer: Convert Age and Ethnicity into a longer format
+health_data_long <- health_data_clean %>%
+  pivot_longer(cols = c(Age, Ethnicity),
+               names_to = "Variable",
+               values_to = "Value")
+
+# Remove missing or "Missing" values in long format
+health_data_long <- health_data_long %>%
+  filter(!is.na(Value) & Value != "Missing")
+
+# Pivot wider: Recreate a wider format from the long dataset
+health_data_wide <- health_data_long %>%
+  pivot_wider(names_from = Variable, values_from = Value)
+
+# View the cleaned data in wide format
+head(health_data_wide)
+
+
+```
+
+## RQ1_2 : Demographic Summary
+
+```{r}
+
+# Function to summarize Telehealth usage by a given demographic variable
+summarize_by_demographics <- function(data, variable) {
+  data %>%
+    group_by(!!sym(variable), Telehealth) %>%
+    summarize(
+      Count = n(),
+      .groups = "drop"
+    ) %>%
+    arrange(!!sym(variable))
+}
+
+# Summarize by each demographic variable
+gender_summary <- summarize_by_demographics(health_data_clean, "Gender")
+ethnicity_summary <- summarize_by_demographics(health_data_clean, "Ethnicity")
+education_summary <- summarize_by_demographics(health_data_clean, "Education")
+income_summary <- summarize_by_demographics(health_data_clean, "Income")
+age_summary <- summarize_by_demographics(health_data_clean, "Age")
+
+# View summaries
+gender_summary
+ethnicity_summary
+education_summary
+income_summary
+age_summary
+
+
+#Descriptive Summar
+
+summary(health_data_clean)
+```
+
+## RQ1_3: Data Visualization
+
+```{r}
+# Function to summarize and create barplots for demographic variables
+create_summary_and_barplot <- function(data, variable) {
+  # Summarize data by demographic variable and Telehealth
+  summarized_data <- data %>%
+    group_by(!!sym(variable), Telehealth) %>%
+    summarize(Count = n(), .groups = "drop")
+  
+  # Create barplot
+  ggplot(summarized_data, aes_string(x = variable, y = "Count", fill = "Telehealth")) +
+    geom_bar(stat = "identity", position = "dodge") +
+    labs(
+      title = paste(variable, "Distribution by Telehealth Usage"),
+      x = variable,
+      y = "Count"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      plot.title = element_text(hjust = 0.5)
+    )
+}
+
+# List of variables for RQ1
+demographic_vars <- c("Age", "Gender", "Ethnicity", "Education", "Income")
+
+# Loop through the demographic variables and generate barplots
+for (var in demographic_vars) {
+  print(create_summary_and_barplot(health_data_clean, var))
+}
+
+```
+
+## RQ1_4: Summary Statistics
+
+```{r}
+
+# Proportions for demographic groups by Telehealth
+summary_table_demographic_group <- health_data_clean %>%
+  pivot_longer(cols = c(Age, Gender, Ethnicity, Education, Income), 
+               names_to = "Demographic_Variable", 
+               values_to = "Group") %>%
+  group_by(Telehealth, Demographic_Variable, Group) %>%
+  summarize(count = n(), .groups = "drop") %>%
+  mutate(percentage = round(count / sum(count) * 100, 2))
+
+# Display the summary table
+kable(summary_table_demographic_group, format = "markdown")
+
+summary_table_demographic_stats <- health_data_clean %>%
+  summarize(
+    age_mean = round(mean(as.numeric(as.factor(Age)), na.rm = TRUE), 2),
+    age_median = median(as.numeric(as.factor(Age)), na.rm = TRUE),
+    age_sd = round(sd(as.numeric(as.factor(Age)), na.rm = TRUE), 2),
+    education_mean = round(mean(as.numeric(as.factor(Education)), na.rm = TRUE), 2),
+    education_median = median(as.numeric(as.factor(Education)), na.rm = TRUE),
+    education_sd = round(sd(as.numeric(as.factor(Education)), na.rm = TRUE), 2),
+    income_mean = round(mean(as.numeric(as.factor(Income)), na.rm = TRUE), 2),
+    income_median = median(as.numeric(as.factor(Income)), na.rm = TRUE),
+    income_sd = round(sd(as.numeric(as.factor(Income)), na.rm = TRUE), 2),
+    .groups = "drop"
+  )
+
+# Display the summary table
+kable(summary_table_demographic_stats, format = "markdown")
+
 ```
 
 # RQ2. How do social media usage frequency and health information engagement levels on social media (low, medium, high) differ between individuals who use and do not use Telehealth services?
