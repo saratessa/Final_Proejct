@@ -3,9 +3,10 @@ title: "Final_Project"
 author: "Songyi Ahn, Nakyung Lee, Nishat Parvez"
 format: pdf
 execute:
-  echo: false
+  echo: true
   warning: false
   message: false
+  eval: true
 editor: visual
 ---
 
@@ -34,7 +35,7 @@ load(file_path)
 hints <- public
 ```
 
-# RQ1.
+# RQ1. What is the distribution of demographic/socio-economic categories, including age, gender, ethnicity, education, and income level, among individuals who do and do not use Telehealth services?
 
 ## RQ1_1. Data Cleaning
 
@@ -42,7 +43,7 @@ hints <- public
 #this is for Nishat's work 
 ```
 
-# RQ2.
+# RQ2. How do social media usage frequency and health information engagement levels on social media (low, medium, high) differ between individuals who use and do not use Telehealth services?
 
 ## RQ2_1. Data Cleaning
 
@@ -50,48 +51,102 @@ hints <- public
 # Selecting relevant columns for RQ2
 
 data_nl <- hints %>% 
-  select(HHID, ReceiveTelehealthCare, SocMed_Visited, SocMed_WatchedVid, SocMed_Interacted, SocMed_SharedPers)
+  select(HHID, ReceiveTelehealthCare, SocMed_Visited, 
+         SocMed_WatchedVid, SocMed_Interacted, SocMed_SharedPers)
 
 # Renaming each column
 
 data_nl <- data_nl %>% 
-  rename(telehealth = ReceiveTelehealthCare, sm_freq = SocMed_Visited, sm_watching = SocMed_WatchedVid, sm_interact = SocMed_Interacted, sm_sharing = SocMed_SharedPers)
+  rename(telehealth = ReceiveTelehealthCare, 
+         sm_usage_freq = SocMed_Visited, 
+         sm_watching = SocMed_WatchedVid, 
+         sm_interact =
+        SocMed_Interacted, 
+        sm_sharing = SocMed_SharedPers)
 
 # Recoding responses
 
 data_nl <- data_nl %>% 
-  mutate(telehealth = recode(telehealth, "No telehealth visits in the past 12 months" = "No", "Yes, by video" = "Yes", "Yes, by phone call (voice only with no video)" = "Yes", "Yes, some by video and some by phone call" = "Yes", "Missing data (Web partial - Question Never Seen)" = "Missing", "Missing data (Not Ascertained)" = "Missing"))
+  mutate(telehealth = 
+           recode(telehealth, 
+                  "No telehealth visits in the past 12 months" = "No", 
+                  "Yes, by video" = "Yes", 
+                  "Yes, by phone call (voice only with no video)" = "Yes", 
+                  "Yes, some by video and some by phone call" = "Yes", 
+                  "Missing data (Web partial - Question Never Seen)" = 
+                  "Missing", "Missing data (Not Ascertained)" = 
+                  "Missing"))
 
 # Creating a dataset for 5 point Likert scale
 
 data_nl_2 <- data_nl %>% 
-  mutate(sm_freq = recode(sm_freq, "Never" = 1, "Less than once a month" = 2, "A few times a month" = 3, "At least once a week" = 4, "Almost every day" = 5, "Missing data (Not Ascertained)" = NA_real_, "Missing data (Web partial - Question Never Seen)" = NA_real_, "Multiple responses selected in error" = NA_real_), sm_watching = recode(sm_watching, "Missing data (Not Ascertained)" = NA_real_, "Missing data (Web partial - Question Never Seen)" = NA_real_, "Never" = 1, "Less than once a month" = 2, "A few times a month" = 3, "At least once a week" = 4, "Almost every day" = 5), sm_interact = recode(sm_interact, "Missing data (Not Ascertained)" = NA_real_, "Missing data (Web partial - Question Never Seen)" = NA_real_, "Never" = 1, "Less than once a month" = 2, "A few times a month" = 3, "At least once a week" = 4, "Almost every day" = 5), sm_sharing = recode(sm_sharing, "Missing data (Not Ascertained)" = NA_real_, "Missing data (Web partial - Question Never Seen)" = NA_real_, "Multiple responses selected in error" = NA_real_, "Never" = 1, "Less than once a month" = 2, "A few times a month" = 3, "At least once a week" = 4, "Almost every day" = 5)) %>% 
-  filter(!is.na(sm_freq)) %>% 
+  mutate(sm_usage_freq = 
+           recode(sm_usage_freq, 
+                  "Never" = 1, 
+                  "Less than once a month" = 2, 
+                  "A few times a month" = 3, 
+                  "At least once a week" = 4, 
+                  "Almost every day" = 5, 
+                  "Missing data (Not Ascertained)" = NA_real_, 
+                  "Missing data (Web partial - Question Never Seen)" = NA_real_, 
+                  "Multiple responses selected in error" = NA_real_), 
+         sm_watching = recode(sm_watching, 
+                     "Missing data (Not Ascertained)" = NA_real_, 
+                     "Missing data (Web partial - Question Never Seen)" = NA_real_, 
+                     "Never" = 1, 
+                     "Less than once a month" = 2, 
+                     "A few times a month" = 3, 
+                     "At least once a week" = 4, 
+                     "Almost every day" = 5), 
+         sm_interact = recode(sm_interact, 
+                     "Missing data (Not Ascertained)" = NA_real_, 
+                     "Missing data (Web partial - Question Never Seen)" = NA_real_, 
+                     "Never" = 1, 
+                     "Less than once a month" = 2, 
+                     "A few times a month" = 3, 
+                     "At least once a week" = 4, 
+                     "Almost every day" = 5), 
+         sm_sharing = recode(sm_sharing, 
+                    "Missing data (Not Ascertained)" = NA_real_, 
+                    "Missing data (Web partial - Question Never Seen)" = NA_real_, 
+                    "Multiple responses selected in error" = NA_real_, 
+                    "Never" = 1, 
+                    "Less than once a month" = 2, 
+                    "A few times a month" = 3, 
+                    "At least once a week" = 4, 
+                    "Almost every day" = 5)) %>% 
+  filter(!is.na(sm_usage_freq)) %>% 
   filter(!is.na(sm_watching)) %>% 
   filter(!is.na(sm_interact)) %>% 
   filter(!is.na(sm_sharing)) %>% 
   filter(telehealth !="Missing")
 ```
 
-## RQ2_2. Grouping by Social Media Engagement Levels: pivot_longer()
+## RQ2_2. Grouping by Health Information Engagement Levels on Social Media: pivot_longer()
 
 ```{r}
-# Reshape SM engagement categories into one longer engagement_type column
+# Reshape health-information-engagement-on-social-media categories into one longer engagement_type column
 
 data_long <- data_nl_2 %>% 
-  pivot_longer(cols = c(sm_watching, sm_interact, sm_sharing), names_to = "engagement_type", values_to = "frequency")
+  pivot_longer(cols = c(sm_watching, sm_interact, sm_sharing), 
+               names_to = "engagement_type", values_to = "frequency")
 
 # Low, medium, high grouping
 
 data_long <- data_long %>% 
   group_by(HHID) %>% 
-  mutate(sum_eng_lev = sum(frequency))
-
-# Keeping only one sum_eng_lev value per person
+  mutate(total_sm_health_eng_lev = sum(frequency))
 
 data_freq_eng_group <- data_long %>% 
-  distinct(HHID, telehealth, sm_freq, sum_eng_lev) %>% 
-  mutate(eng_lev_group = case_when(sum_eng_lev >= 3 & sum_eng_lev <= 6 ~ "Low", sum_eng_lev >= 7 & sum_eng_lev <= 10 ~ "Medium", sum_eng_lev >= 11 & sum_eng_lev <= 15 ~ "High"))
+  distinct(HHID, telehealth, sm_usage_freq, total_sm_health_eng_lev) %>% 
+  mutate(sm_health_eng_lev_group = 
+           case_when(
+             total_sm_health_eng_lev >= 3 & 
+               total_sm_health_eng_lev <= 6 ~ "Low",
+             total_sm_health_eng_lev >= 7 & 
+               total_sm_health_eng_lev <= 10 ~ "Medium",
+             total_sm_health_eng_lev >= 11 & 
+               total_sm_health_eng_lev <= 15 ~ "High"))
 ```
 
 ## RQ2_3. Data Visualization
@@ -99,70 +154,85 @@ data_freq_eng_group <- data_long %>%
 ```{r}
 # Social Media Frequency x Telehealth
 
-ggplot(data_freq_eng_group, aes(x = telehealth, fill = as.factor(sm_freq)))+
+ggplot(data_freq_eng_group, aes(x = telehealth, fill = as.factor(sm_usage_freq)))+
          geom_bar() +
   scale_fill_discrete(
-    labels = c("Never", "Less than once a month", "A few times a month", "At least once a week", "Almost every day")) +
+    labels = c("Never", "Less than once a month", 
+               "A few times a month", "At least once a week", 
+               "Almost every day")) +
          theme_minimal() +
-  labs(title = "Telehealth Usage by Social Media Frequency", x = "Telehealth", y = "Count", fill = "Social Media Frequency")
+  labs(
+    title = "Social Media Usage Frequency\nAmong Telehealth Users and Non-Users", 
+       x = "Telehealth", y = "Count", 
+       fill = "Social Media Usage Frequency")
 
-# Social Media Engagement Levels X Telehealth
+# Health Information Engagement Levels on Social Media X Telehealth
 
-ggplot(data_freq_eng_group, aes(x = telehealth, fill = eng_lev_group)) +
+ggplot(data_freq_eng_group, aes(x = telehealth, fill = sm_health_eng_lev_group)) +
   geom_bar() +
   theme_minimal() +
-  labs(title = "Telehealth Usage by Social Media Engagement Levels", x = "Telehealth", y = "Count", fill = "Social Media Engagement Levels")
+  labs(
+    title = "Health Information Engagement Levels on Social Media\n Among Telehealth Users and Non-Users", 
+    x = "Telehealth", y = "Count", 
+    fill = "Health Information Engagement Levels\non Social Media")
 ```
 
 ## RQ2_4. Summary Statistics
 
 ```{r}
-# Social Media Frequency X Telehealth 
+# Social Media Usage Frequency X Telehealth 
 
 summary_table_sm_freq <- data_freq_eng_group %>% 
-  mutate(sm_freq = case_when(
-      sm_freq == 1 ~ "1 (Never)",
-      sm_freq == 2 ~ "2 (Less than once a month)",
-      sm_freq == 3 ~ "3 (A few times a month)",
-      sm_freq == 4 ~ "4 (At least once a week)",
-      sm_freq == 5 ~ "5 (Almost every day)")) %>% 
-  group_by(telehealth, sm_freq) %>% 
+  mutate(sm_usage_freq = case_when(
+      sm_usage_freq == 1 ~ "1 (Never)",
+      sm_usage_freq == 2 ~ "2 (Less than once a month)",
+      sm_usage_freq == 3 ~ "3 (A few times a month)",
+      sm_usage_freq == 4 ~ "4 (At least once a week)",
+      sm_usage_freq == 5 ~ "5 (Almost every day)")) %>% 
+  group_by(telehealth, sm_usage_freq) %>% 
   summarize(Count = n()) %>% 
   mutate(Percentage = round(Count / sum(Count) * 100, 2)) %>% 
-  as.data.frame()
+  rename(Telehealth = telehealth, SM_Usage_Freqency = sm_usage_freq) 
 
-print(summary_table_sm_freq)
+kable(summary_table_sm_freq)
 
-# Mean, Median, SD for SMF X Telehealth
+# Mean, Median, SD for Social Media Usage Frequency X Telehealth
 
 summary_table_sm_freq_stats <- data_freq_eng_group %>% 
   group_by(telehealth) %>% 
-  summarize(SM_Freq_Mean = round(mean(sm_freq), 2), Median = median(sm_freq), SD = round(sd(sm_freq), 2), Count = n()) %>% 
-  as.data.frame()
+  summarize(SM_Usage_Freq_Mean = round(mean(sm_usage_freq), 2), 
+            Median = median(sm_usage_freq), 
+            SD = round(sd(sm_usage_freq), 2), 
+            Count = n()) %>% 
+  rename(Telehealth = telehealth)
 
-print(summary_table_sm_freq_stats)
+kable(summary_table_sm_freq_stats)
 
-# Social Media Engagement Levels X Telehealth
+# Health Information Engagement Levels on Social Media X Telehealth
 
 summary_table_eng_lev_group <- data_freq_eng_group %>% 
-  group_by(telehealth, eng_lev_group) %>% 
+  group_by(telehealth, sm_health_eng_lev_group) %>% 
   summarize(Count = n()) %>% 
   mutate(Percentage = round(Count / sum(Count) * 100, 2)) %>% 
-  as.data.frame()
+  rename(
+    Telehealth = telehealth, 
+    SM_Health_Info_Eng = sm_health_eng_lev_group) 
 
-print(summary_table_eng_lev_group)
+kable(summary_table_eng_lev_group)
 
-# Mean, Median, SD for SME X Telehealth
+# Mean, Median, SD for Health Information Engagement Levels on Social Media X Telehealth
 
 summary_table_eng_lev_stats <- data_long %>% 
   group_by(telehealth) %>% 
-  summarize(Eng_Mean = round(mean(sum_eng_lev), 2), Median = median(sum_eng_lev), SD = round(sd(sum_eng_lev), 2)) %>% 
-  as.data.frame()
+  summarize(SM_Health_Info_Eng_Mean = round(mean(total_sm_health_eng_lev), 2), 
+            Median = median(total_sm_health_eng_lev), 
+            SD = round(sd(total_sm_health_eng_lev), 2)) %>% 
+  rename(Telehealth = telehealth) 
 
-print(summary_table_eng_lev_stats)
+kable(summary_table_eng_lev_stats)
 ```
 
-# RQ3.
+# RQ3. How does the distribution of cancer-related risk perception groups (low, medium, high) compare between individuals who use and do not use Telehealth services?
 
 ## RQ3_1. Data Cleaning
 
