@@ -158,7 +158,7 @@ data_freq_eng_group <- data_long %>%
 ## RQ2_3. Data Visualization
 
 ```{r}
-# Social Media Frequency x Telehealth
+# Social Media Usage Frequency x Telehealth
 
 ggplot(data_freq_eng_group, aes(x = telehealth, fill = as.factor(sm_usage_freq)))+
          geom_bar() +
@@ -172,6 +172,21 @@ ggplot(data_freq_eng_group, aes(x = telehealth, fill = as.factor(sm_usage_freq))
        x = "Telehealth", y = "Count", 
        fill = "Social Media Usage Frequency")
 
+ggplot(data_freq_eng_group, aes(
+  x = as.factor(sm_usage_freq), fill = telehealth)) +
+  geom_bar(position = "dodge") +
+   scale_x_discrete(
+    labels = c("Never", "<1/M", 
+               "A few/M", "≥1/W", 
+               "Every day")) +
+        theme_minimal() +
+    labs(
+      title = "Telehealth Usage by Social Media Usage Frequency",
+      x = "Social Media Usage Frequency",
+      y = "Count",
+      fill = "Telehealth Usage"
+    )
+
 # Health Information Engagement Levels on Social Media X Telehealth
 
 ggplot(data_freq_eng_group, aes(x = telehealth, fill = sm_health_eng_lev_group)) +
@@ -181,6 +196,21 @@ ggplot(data_freq_eng_group, aes(x = telehealth, fill = sm_health_eng_lev_group))
     title = "Health Information Engagement Levels on Social Media\n Among Telehealth Users and Non-Users", 
     x = "Telehealth", y = "Count", 
     fill = "Health Information Engagement Levels\non Social Media")
+
+data_freq_eng_group$sm_health_eng_lev_group <- factor(
+  data_freq_eng_group$sm_health_eng_lev_group, 
+  levels = c("Low", "Medium", "High"))
+  
+ggplot(data_freq_eng_group, 
+       aes(x = sm_health_eng_lev_group, fill = telehealth)) +
+    geom_bar(position = "dodge") +
+    theme_minimal() +
+    labs(
+      title = "Telehealth Usage by Health Information Engagement\nLevels on Social Media", 
+      x = "Health Information Engagement Levels\non Social Media",
+      y = "Count",
+      fill = "Telehealth Usage"
+    )
 ```
 
 ## RQ2_4. Summary Statistics
