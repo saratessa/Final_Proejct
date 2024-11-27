@@ -25,12 +25,9 @@ editor: visual
 #| include: false
 
 library(tidyverse)
-library(dplyr)
-library(tidyr)
 library(here)
 library(rio)
 library(knitr)
-library(ggplot2)
 ```
 
 ## Loading and Renaming the dataset
