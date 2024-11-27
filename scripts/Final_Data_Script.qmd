@@ -49,122 +49,152 @@ hints <- public
 ## RQ1_1. Data Cleaning
 
 ```{r}
-# Selecting relevant columns for RQ1
+
+# Select relevant columns for RQ1
 health_data <- hints %>%
-  select(AgeGrpA, AgeGrpB, BirthGender, RaceEthn, RaceEthn5, RACE_CAT2, Education, IncomeRanges, ReceiveTelehealthCare)
+  select(AgeGrpB, BirthGender, RACE_CAT2, HISP_CAT, Education, IncomeRanges, ReceiveTelehealthCare)
 
-# Combine Age groups into a single variable
-health_data <- health_data %>%
-  mutate(Age = paste(AgeGrpA, AgeGrpB, sep = ", "))
-
-# Standardize Ethnicity categories
-health_data <- health_data %>%
-  mutate(Ethnicity = case_when(
-    RaceEthn %in% c("White", "Caucasian") ~ "White",
-    RaceEthn %in% c("Black", "African American") ~ "Black or African American",
-    RaceEthn %in% c("Hispanic", "Latino") ~ "Hispanic or Latino",
-    RaceEthn %in% c("Asian", "Pacific Islander") ~ "Asian or Pacific Islander",
-    TRUE ~ "Other"
-  ))
-
-# Rename columns
-health_data <- health_data %>%
-  rename(Telehealth = ReceiveTelehealthCare,
-         Gender = BirthGender,
-         Income = IncomeRanges)
-
-# Recoding responses for Telehealth
-health_data <- health_data %>%
-  mutate(Telehealth = recode(Telehealth,
-                             "No telehealth visits in the past 12 months" = "No",
-                             "Yes, by video" = "Yes",
-                             "Yes, by phone call (voice only with no video)" = "Yes",
-                             "Yes, some by video and some by phone call" = "Yes",
-                             "Missing data (Web partial - Question Never Seen)" = "Missing",
-                             "Missing data (Not Ascertained)" = "Missing"))
-
-# Remove rows with missing or invalid data
+# Recode, rename variables, and handle missing data
 health_data_clean <- health_data %>%
-  filter(
-    !is.na(Telehealth) & Telehealth != "Missing",
-    !is.na(Gender),
-    !is.na(Education),
-    !is.na(Income),
-    !is.na(Ethnicity),
-    !is.na(Age))
+  mutate(
+    # Recode Telehealth
+    Telehealth = recode(
+      ReceiveTelehealthCare,
+      "No telehealth visits in the past 12 months" = "No",
+      "Yes, by video" = "Yes",
+      "Yes, by phone call (voice only with no video)" = "Yes",
+      "Yes, some by video and some by phone call" = "Yes",
+      "Missing data (Web partial - Question Never Seen)" = NA_character_,
+      "Missing data (Not Ascertained)" = NA_character_
+    ),
+    
+    # Recode Age
+    Age = recode(
+      AgeGrpB,
+      "1" = "18-24",
+      "2" = "25-34",
+      "3" = "35-44",
+      "4" = "45-54",
+      "5" = "55-64",
+      "6" = "65-74",
+      "7" = "75+",
+      "Missing Data (Not Ascertained)" = NA_character_, 
+      "Unreadable or Nonconforming Numeric Response" = NA_character_
+    ),
+    
+    # Recode Gender
+    Gender = recode(
+      BirthGender,
+      "Male" = "Male",
+      "Female" = "Female",
+      "Missing data (Not Ascertained)" = NA_character_
+    ),
+    
+    # Recode Education
+    Education = recode(
+      Education,
+      "1" = "Less than 8 years",
+      "2" = "8 through 11 years",             
+      "3" = "12 years or completed high school", 
+      "4" = "Post high school training other than college (vocational or technical)",
+      "5" = "Some college",        
+      "6" = "College graduate",            
+      "7" = "Postgraduate",         
+      "Missing data (Not Ascertained)" = NA_character_,
+      "Missing data (Web partial - Question Never Seen)" = NA_character_
+    ),
+    
+    # Recode Income
+    Income = recode(
+      IncomeRanges,
+      "$0 to $9,999" = "<$10K",
+      "$10,000 to $14,999" = "$10K-$34K",
+      "$15,000 to $19,999" = "$10K-$34K",
+      "$20,000 to $34,999" = "$10K-$34K",
+      "$35,000 to $49,999" = "$35K-$99K",
+      "$50,000 to $74,999" = "$35K-$99K",
+      "$75,000 to $99,999" = "$75K-$199K",
+      "$100,000 and $199,999" = "$75K-$199K",
+      "$200,000 or more" = "$200K",
+      "Missing data (Not Ascertained)" = NA_character_,
+      "Missing data (Web partial - Question Never Seen)" = NA_character_
+    ),
+    
+    # Recode Ethnicity
+    Ethnicity = recode(
+      HISP_CAT,
+      "Mexican only" = "Hispanic",
+      "Cuban only" = "Hispanic",
+      "Puerto Rican only" = "Hispanic",
+      "Other Hispanic only" = "Other Hispanic or Latino/a",
+      "Not Hispanic only" = NA_character_,
+      "Multiple Hispanic ethnicities selected" = NA_character_,
+      "Missing data (Not Ascertained)" = NA_character_,
+      "Missing data (Web partial - Question Never Seen)" = NA_character_
+    ) %>% 
+      coalesce(recode(
+        RACE_CAT2,
+        "White only" = "White",
+        "Black only" = "Black",
+        "Filipino only" = "Asian or Pacific Islander",
+        "Chinese only" = "Asian or Pacific Islander",
+        "Asian Indian only" = "Asian or Pacific Islander",
+        "Other Asian only" = "Asian or Pacific Islander",
+        "Asian only" = "Asian or Pacific Islander",
+        "Vietnamese only" = "Asian or Pacific Islander",
+        "Other Pacific Islander only" = "Asian or Pacific Islander",
+        "American Indian or Alaska Native only" = "Native American",
+        "Missing data (Not Ascertained)" = NA_character_,
+        "Missing data (Web partial - Question Never Seen)" = NA_character_,
+        "Multiple races selected" = NA_character_
+      ))
+  ) %>%
+  # Drop unnecessary columns
+  select(-AgeGrpB, -RACE_CAT2, -HISP_CAT, -BirthGender, -IncomeRanges, -ReceiveTelehealthCare) %>%
+  na.omit()
 
-# Pivot longer: Convert Age and Ethnicity into a longer format
+# Transform data using pivot_longer and pivot_wider
+# Pivot longer
 health_data_long <- health_data_clean %>%
-  pivot_longer(cols = c(Age, Ethnicity),
-               names_to = "Variable",
-               values_to = "Value")
+  pivot_longer(
+    cols = everything(),
+    names_to = "Variable",
+    values_to = "Value"
+  ) %>%
+  filter(!is.na(Value))
 
-# Remove missing or "Missing" values in long format
-health_data_long <- health_data_long %>%
-  filter(!is.na(Value) & Value != "Missing")
-
-# Pivot wider: Recreate a wider format from the long dataset
+# Pivot wider back to the original structure
 health_data_wide <- health_data_long %>%
-  pivot_wider(names_from = Variable, values_from = Value)
+  pivot_wider(
+    names_from = Variable,
+    values_from = Value
+  )
 
-# View the cleaned data in wide format
-head(health_data_wide)
-
+# View the cleaned dataset
+head(health_data_clean)
 
 ```
 
-## RQ1_2 : Demographic Summary
+## RQ1_2: Data Visualization
 
 ```{r}
 
-# Function to summarize Telehealth usage by a given demographic variable
-summarize_by_demographics <- function(data, variable) {
-  data %>%
-    group_by(!!sym(variable), Telehealth) %>%
-    summarize(
-      Count = n(),
-      .groups = "drop"
-    ) %>%
-    arrange(!!sym(variable))
-}
+# List of demographic variables to visualize
+demographic_vars <- c("Age", "Gender", "Education", "Income", "Ethnicity")
 
-# Summarize by each demographic variable
-gender_summary <- summarize_by_demographics(health_data_clean, "Gender")
-ethnicity_summary <- summarize_by_demographics(health_data_clean, "Ethnicity")
-education_summary <- summarize_by_demographics(health_data_clean, "Education")
-income_summary <- summarize_by_demographics(health_data_clean, "Income")
-age_summary <- summarize_by_demographics(health_data_clean, "Age")
-
-# View summaries
-gender_summary
-ethnicity_summary
-education_summary
-income_summary
-age_summary
-
-
-#Descriptive Summar
-
-summary(health_data_clean)
-```
-
-## RQ1_3: Data Visualization
-
-```{r}
-# Function to summarize and create barplots for demographic variables
-create_summary_and_barplot <- function(data, variable) {
-  # Summarize data by demographic variable and Telehealth
-  summarized_data <- data %>%
-    group_by(!!sym(variable), Telehealth) %>%
-    summarize(Count = n(), .groups = "drop")
+# Function to create and display ggplot for each demographic variable
+create_telehealth_plot <- function(data, var) {
+  # Remove missing data for the current variable
+  data <- data %>%
+    filter(!is.na(!!sym(var)), !is.na(Telehealth)) 
   
-  # Create barplot
-  ggplot(summarized_data, aes_string(x = variable, y = "Count", fill = "Telehealth")) +
-    geom_bar(stat = "identity", position = "dodge") +
+  ggplot(data, aes_string(x = var, fill = "Telehealth")) +
+    geom_bar(position = "dodge") +
     labs(
-      title = paste(variable, "Distribution by Telehealth Usage"),
-      x = variable,
-      y = "Count"
+      title = paste("Telehealth Usage by", var),
+      x = var,
+      y = "Number of Responses",
+      fill = "Telehealth Usage"
     ) +
     theme_minimal() +
     theme(
@@ -173,48 +203,53 @@ create_summary_and_barplot <- function(data, variable) {
     )
 }
 
-# List of variables for RQ1
-demographic_vars <- c("Age", "Gender", "Ethnicity", "Education", "Income")
+# Loop through each demographic variable and create a plot
+plots <- lapply(demographic_vars, function(var) {
+  create_telehealth_plot(health_data_clean, var)
+})
 
-# Loop through the demographic variables and generate barplots
-for (var in demographic_vars) {
-  print(create_summary_and_barplot(health_data_clean, var))
+# Display the plots
+for (plot in plots) {
+  print(plot)
 }
+
+
+
 
 ```
 
-## RQ1_4: Summary Statistics
+## RQ1_3: Summary Statistics
 
 ```{r}
 
-# Proportions for demographic groups by Telehealth
-summary_table_demographic_group <- health_data_clean %>%
-  pivot_longer(cols = c(Age, Gender, Ethnicity, Education, Income), 
-               names_to = "Demographic_Variable", 
-               values_to = "Group") %>%
-  group_by(Telehealth, Demographic_Variable, Group) %>%
+# Grouped summary for demographics and telehealth usage
+summary_table_demographics <- health_data_clean %>%
+  group_by(Telehealth, Age, Gender, Education, Income, Ethnicity) %>%
   summarize(count = n(), .groups = "drop") %>%
   mutate(percentage = round(count / sum(count) * 100, 2))
 
-# Display the summary table
-kable(summary_table_demographic_group, format = "markdown")
+# Display the demographic summary table
+kable(summary_table_demographics, caption = "Summary of Telehealth Usage by Demographics")
 
-summary_table_demographic_stats <- health_data_clean %>%
+# Summary statistics for Telehealth usage
+summary_table_telehealth_stats <- health_data_clean %>%
+  group_by(Telehealth) %>%
   summarize(
-    age_mean = round(mean(as.numeric(as.factor(Age)), na.rm = TRUE), 2),
-    age_median = median(as.numeric(as.factor(Age)), na.rm = TRUE),
-    age_sd = round(sd(as.numeric(as.factor(Age)), na.rm = TRUE), 2),
-    education_mean = round(mean(as.numeric(as.factor(Education)), na.rm = TRUE), 2),
-    education_median = median(as.numeric(as.factor(Education)), na.rm = TRUE),
-    education_sd = round(sd(as.numeric(as.factor(Education)), na.rm = TRUE), 2),
-    income_mean = round(mean(as.numeric(as.factor(Income)), na.rm = TRUE), 2),
-    income_median = median(as.numeric(as.factor(Income)), na.rm = TRUE),
-    income_sd = round(sd(as.numeric(as.factor(Income)), na.rm = TRUE), 2),
-    .groups = "drop"
+    Age_mean = round(mean(as.numeric(Age), na.rm = TRUE), 2),
+    Age_median = median(as.numeric(Age), na.rm = TRUE),
+    Age_sd = round(sd(as.numeric(Age), na.rm = TRUE), 2),
+    
+    Education_mean = round(mean(as.numeric(Education), na.rm = TRUE), 2),
+    Education_median = median(as.numeric(Education), na.rm = TRUE),
+    Education_sd = round(sd(as.numeric(Education), na.rm = TRUE), 2),
+    
+    Income_mean = round(mean(as.numeric(as.factor(Income)), na.rm = TRUE), 2),
+    Income_median = median(as.numeric(as.factor(Income)), na.rm = TRUE),
+    Income_sd = round(sd(as.numeric(as.factor(Income)), na.rm = TRUE), 2)
   )
 
-# Display the summary table
-kable(summary_table_demographic_stats, format = "markdown")
+# Display the summary statistics table
+kable(summary_table_telehealth_stats, caption = "Summary Statistics for Telehealth Usage")
 
 ```
 

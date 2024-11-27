@@ -1,0 +1,173 @@
+---
+title: "Final-demo"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(here)
+library(rio)
+library(knitr)
+library(ggplot2)
+
+# Load the file
+file_path <- here("data", "hints6_public.rda")
+load(file_path)
+
+# Change the file name to 'hints'
+hints <- public
+
+```
+
+```{r}
+
+# Step 1: Select relevant columns for RQ1
+health_data <- hints %>%
+  select(AgeGrpB, BirthGender, RACE_CAT2, Education, IncomeRanges, ReceiveTelehealthCare)
+
+# Step 2: Recode, rename variables, and handle missing data
+health_data_clean <- health_data %>%
+  mutate(
+    # Recode Telehealth
+    Telehealth = recode(
+      ReceiveTelehealthCare,
+      "No telehealth visits in the past 12 months" = "No",
+      "Yes, by video" = "Yes",
+      "Yes, by phone call (voice only with no video)" = "Yes",
+      "Yes, some by video and some by phone call" = "Yes",
+      "Missing data (Web partial - Question Never Seen)" = NA_character_,
+      "Missing data (Not Ascertained)" = NA_character_
+    ),
+    
+    # Recode Age
+    Age = recode(
+      AgeGrpB,
+      "1" = "18-24",
+      "2" = "25-34",
+      "3" = "35-44",
+      "4" = "45-54",
+      "5" = "55-64",
+      "6" = "65-74",
+      "7" = "75+",
+      "Missing data (Not Ascertained)" = NA_character_
+    ),
+    
+    # Recode Gender
+    Gender = recode(
+      BirthGender,
+      "Male" = "Male",
+      "Female" = "Female",
+      "Multiple responses selected in error" = NA_character_
+    ),
+    
+    # Recode Education into a 5-point Likert scale
+    Education = recode(
+      Education,
+      "Less than 8 years" = "1",           # Strongly Disagree
+      "8 to 11 years" = "2",               # Disagree
+      "12 years or completed high school" = "3",  # Neutral
+      "Some college, no degree" = "4",     # Agree
+      "Associate degree" = "4",            # Combine with "Some college, no degree"
+      "College graduate" = "5",            # Strongly Agree
+      "Postgraduate degree" = "5",         # Combine with "College graduate"
+      "Missing data (Web partial - Question Never Seen)" = NA_character_
+    ),
+    
+    # Recode Income
+    Income = recode(
+      IncomeRanges,
+      "$0 to $9,999" = "<$10K",
+      "$10,000 to $24,999" = "$10K-$24K",
+      "$25,000 to $49,999" = "$25K-$49K",
+      "$50,000 to $74,999" = "$50K-$74K",
+      "$75,000 and over" = ">$75K",
+      "Missing data (Not Ascertained)" = NA_character_
+    ),
+    
+    # Recode Ethnicity
+    Ethnicity = recode(
+      RACE_CAT2,
+      "White only" = "White",
+      "Black only" = "Black",
+      "Hispanic" = "Hispanic",
+      "Asian only" = "Asian",
+      "Native American or Alaska Native" = "Native American",
+      "Multiple races selected" = NA_character_
+    )
+  ) %>%
+  # Drop unnecessary columns
+  select(-AgeGrpB, -RACE_CAT2, -BirthGender, -IncomeRanges, -ReceiveTelehealthCare) %>%
+  
+  # Remove rows with missing or non-conforming data
+  filter(
+    !is.na(Telehealth),
+    !is.na(Age),
+    !is.na(Gender),
+    !is.na(Education),
+    !is.na(Income),
+    !is.na(Ethnicity)
+  )
+
+# Step 3: Transform data using pivot_longer and pivot_wider
+# Pivot longer for Age and Ethnicity
+health_data_long <- health_data_clean %>%
+  pivot_longer(
+    cols = c(Age, Ethnicity),
+    names_to = "Variable",
+    values_to = "Value"
+  )
+
+# Pivot wider back to the original structure
+health_data_wide <- health_data_long %>%
+  pivot_wider(
+    names_from = Variable,
+    values_from = Value
+  )
+
+# Step 4: View the cleaned dataset
+head(health_data_clean)
+
+```
+
+```{r}
+# List of demographic variables to visualize
+demographic_vars <- c("Age", "Gender", "Education", "Income", "Ethnicity")
+
+# Function to create and display ggplot for each demographic variable
+create_telehealth_plot <- function(data, var) {
+  # Remove missing data for the current variable
+  data <- data %>%
+    filter(!is.na(!!sym(var)), !is.na(Telehealth)) # Ensure both the variable and Telehealth are non-missing
+  
+  ggplot(data, aes_string(x = var, fill = "Telehealth")) +
+    geom_bar(position = "dodge") +
+    labs(
+      title = paste("Telehealth Usage by", var),
+      x = var,
+      y = "Number of Responses",
+      fill = "Telehealth Usage"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      plot.title = element_text(hjust = 0.5)
+    )
+}
+
+# Loop through each demographic variable and create a plot
+plots <- lapply(demographic_vars, function(var) {
+  create_telehealth_plot(health_data_clean, var)
+})
+
+# Display the plots
+for (plot in plots) {
+  print(plot)
+}
+
+
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
