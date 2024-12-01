@@ -1,0 +1,88 @@
+---
+title: "Investigating Telehealth Usage: Exploring Demographic, Socio-Economic, and Behavioral Influences"
+author: "Songyi Ahn, Nakyung Lee, Nishat Parvez"
+format: revealjs
+editor: visual
+---
+
+## Health Information National Trends Survey (HINTS)
+
+-   National Cancer Institute (NCI)
+-   Digital health technology use
+-   Health information-seeking behavior
+-   Cancer awareness and preventive health practices
+
+------------------------------------------------------------------------
+
+## Research Questions
+
+-   RQ1: How do **demographic and socio-economic factors** differ between Telehealth users and non-users?
+-   RQ2: How do **social media usage frequency and health information engagement levels** differ between Telehealth users and non-users?
+-   RQ3: How do **cancer-related risk perceptions** differ between Telehealth users and non-users?
+
+------------------------------------------------------------------------
+
+## RQ1. Nishat
+
+------------------------------------------------------------------------
+
+## RQ2. Nakyung
+
+------------------------------------------------------------------------
+
+## RQ3. Cancer Risk Perception and Telehealth Usage
+
+**How do cancer-related risk perceptions differ between Telehealth users and non-users?**
+
+1.  My Journey:
+
+- selected relevant columns (cancer risk perception: screening willingness, worry, susceptibility, beliefs about causes, prevention feasibility)
+
+- renamed variables into simpler names
+
+- recoded responses into consistent numeric scales
+
+------------------------------------------------------------------------
+
+1.  My Journey (continued):
+
+- cleaned missing or inapplicable data
+
+- combined cancer risk perception factors into a single variable and categorized them into three levels (low, medium, and high) based on their average point
+
+- created data visualization and summary statistics tables
+
+------------------------------------------------------------------------
+
+2.  Challenges I Faced, but Succeeded:
+
+- data cleaning: recoding several variables that had different criteria into a consistent numeric formats without any mistakes
+
+- grouping data: calculating averages across multiple columns using mutate()
+
+- visualization: using 'dodge' position in geom_bar
+
+------------------------------------------------------------------------
+
+3.  My Cool Figures!\
+    can anyone help me inserting an image? I made 'images' folder and saved a png file of my bar chart but I can't insert it in this slides :(
+    
+---
+
+4. Substantive Findings
+
+- Regardless of cancer risk perception level, there are more people who have never used telehealth than those who have. 
+- Individuals with higher risk perceptions are more likely to have used telehealth compared to those with lower risk perceptions
+- Still, People with high cancer risk perception tend to use telehealth less than those with medium risk perception.
+
+------------------------------------------------------------------------
+
+5.  Continuing Challenges
+
+-   Refining the grouping criteria for low, medium, and high based on their average scores? or sum scores?
+
+------------------------------------------------------------------------
+
+6.  Next R Hurdle
+
+-   Learning how to conduct more complicated statistical analysis to deepen understanding of the relationship between cancer risk perception and Telehealth usage, beyond the distribution
