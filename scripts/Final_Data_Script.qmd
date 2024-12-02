@@ -210,9 +210,6 @@ for (plot in plots) {
   print(plot)
 }
 
-
-
-
 ```
 
 ## RQ1_3: Summary Statistics

@@ -22,9 +22,105 @@ editor: visual
 
 ------------------------------------------------------------------------
 
-## RQ1. Nishat
+## RQ1. Demographic factors and Telehealth Usage
 
-------------------------------------------------------------------------
+::: incremental
+### My Journey
+
+-   The dataset includes variables on age group, gender, ethnicity, education, income, and telehealth care usage.
+
+-   Column names were renamed for consistency and clarity. Responses were recoded into numeric scales, and missing values were effectively removed.
+
+-   Visualizations, including bar plots and summary tables, were generated to illustrate demographic patterns and telehealth usage.
+:::
+
+::: incremental
+### Challenges I Faced 
+
+-   Cleaning and restructuring the dataset (e.g., handling missing data for variables like Telehealth usage, Ethnicity, etc.).
+
+-   Re-encoding and categorizing variables (e.g., grouping income ranges, recoding gender and ethnicity categories).
+
+-   Managing discrepancies between data types during transformation (pivot_longer and pivot_wider).
+:::
+
+::: incremental
+### Victories to Celebrate
+
+-   Successfully created a clean dataset with well-defined variables (e.g., Age, Gender, Education, Income, Ethnicity).
+
+-   Generated insightful visualizations to represent telehealth usage distribution across demographics.
+
+-   Comprehensive summary statistics table highlighting demographic distributions and telehealth service usage.
+:::
+
+::: incremental
+### My Cool Figures
+
+![](Final_Data_Script_files/figure-html/unnamed-chunk-4-1.png){fig-align="center" width="465"}
+:::
+
+::: incremental
+### My Cool Figures
+
+![](Final_Data_Script_files/figure-html/unnamed-chunk-4-2.png){fig-align="center" width="416"}
+:::
+
+::: incremental
+### My Cool Figures
+
+![](Final_Data_Script_files/figure-html/unnamed-chunk-4-5.png){fig-align="center" width="434"}
+:::
+
+::: incremental
+### My Cool Figures
+
+![](Final_Data_Script_files/figure-html/unnamed-chunk-4-3.png){fig-align="center" width="455"}
+:::
+
+::: incremental
+### My Cool Figures
+
+![](Final_Data_Script_files/figure-html/unnamed-chunk-4-4.png){fig-align="center" width="422"}
+:::
+
+::: incremental
+### Findings
+
+-   **Age**: Telehealth adoption was highest among middle-aged adults (35-44) and lowest among older adults (65+).
+
+-   **Gender**: Female participants were slightly more likely to engage with telehealth services than males.
+
+-   **Ethnicity**: White respondents dominated telehealth usage, with moderate representation from Hispanic and Black groups.
+:::
+
+::: incremental
+### Findings
+
+-   **Education**: Higher education levels, especially college graduates and postgraduates, correlated strongly with telehealth adoption.
+
+-   **Income**: Telehealth usage increased significantly with higher income levels, particularly among those earning \$75K-\$199K or more.
+:::
+
+::: incremental
+### Continuing Challenges
+
+-   Improving the readability and interpretability of demographic summaries for broader audiences.
+
+-   Refining visualizations to emphasize critical findings without overwhelming the audience.
+
+-   Addressing minor inconsistencies in the summarized percentages.
+:::
+
+::: incremental
+### Next R Hurdle
+
+-   Incorporating inferential statistical techniques (e.g., chi-square tests) to assess relationships between demographics and telehealth usage.
+
+-   Exploring interaction effects between variables like income and education on telehealth adoption.
+
+-   Automating summary and visualization processes for scalability.
+:::
 
 ## RQ2. Nakyung
 
@@ -36,44 +132,44 @@ editor: visual
 
 1.  My Journey:
 
-- selected relevant columns (cancer risk perception: screening willingness, worry, susceptibility, beliefs about causes, prevention feasibility)
+-   selected relevant columns (cancer risk perception: screening willingness, worry, susceptibility, beliefs about causes, prevention feasibility)
 
-- renamed variables into simpler names
+-   renamed variables into simpler names
 
-- recoded responses into consistent numeric scales
+-   recoded responses into consistent numeric scales
 
 ------------------------------------------------------------------------
 
 1.  My Journey (continued):
 
-- cleaned missing or inapplicable data
+-   cleaned missing or inapplicable data
 
-- combined cancer risk perception factors into a single variable and categorized them into three levels (low, medium, and high) based on their average point
+-   combined cancer risk perception factors into a single variable and categorized them into three levels (low, medium, and high) based on their average point
 
-- created data visualization and summary statistics tables
+-   created data visualization and summary statistics tables
 
 ------------------------------------------------------------------------
 
 2.  Challenges I Faced, but Succeeded:
 
-- data cleaning: recoding several variables that had different criteria into a consistent numeric formats without any mistakes
+-   data cleaning: recoding several variables that had different criteria into a consistent numeric formats without any mistakes
 
-- grouping data: calculating averages across multiple columns using mutate()
+-   grouping data: calculating averages across multiple columns using mutate()
 
-- visualization: using 'dodge' position in geom_bar
+-   visualization: using 'dodge' position in geom_bar
 
 ------------------------------------------------------------------------
 
 3.  My Cool Figures!\
     can anyone help me inserting an image? I made 'images' folder and saved a png file of my bar chart but I can't insert it in this slides :(
-    
----
 
-4. Substantive Findings
+------------------------------------------------------------------------
 
-- Regardless of cancer risk perception level, there are more people who have never used telehealth than those who have. 
-- Individuals with higher risk perceptions are more likely to have used telehealth compared to those with lower risk perceptions
-- Still, People with high cancer risk perception tend to use telehealth less than those with medium risk perception.
+4.  Substantive Findings
+
+-   Regardless of cancer risk perception level, there are more people who have never used telehealth than those who have.
+-   Individuals with higher risk perceptions are more likely to have used telehealth compared to those with lower risk perceptions
+-   Still, People with high cancer risk perception tend to use telehealth less than those with medium risk perception.
 
 ------------------------------------------------------------------------
 

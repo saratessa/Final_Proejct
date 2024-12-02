@@ -8,7 +8,7 @@
 <link href="presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="presentation_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="presentation_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.57">
+  <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Songyi Ahn, Nakyung Lee, Nishat Parvez">
   <title>Investigating Telehealth Usage: Exploring Demographic, Socio-Economic, and Behavioral Influences</title>
@@ -156,8 +156,7 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    padding-bottom: 0.5rem;
-    margin-bottom: 0;
+    margin-bottom: 0.5rem;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -354,8 +353,103 @@ Songyi Ahn, Nakyung Lee, Nishat Parvez
 <li>RQ3: How do <strong>cancer-related risk perceptions</strong> differ between Telehealth users and non-users?</li>
 </ul>
 </section>
-<section id="rq1.-nishat" class="slide level2">
-<h2>RQ1. Nishat</h2>
+<section id="rq1.-demographic-factors-and-telehealth-usage" class="slide level2">
+<h2>RQ1. Demographic factors and Telehealth Usage</h2>
+<section id="my-journey" class="incremental">
+<h3>My Journey</h3>
+<ul>
+<li><p>The dataset includes variables on age group, gender, ethnicity, education, income, and telehealth care usage.</p></li>
+<li><p>Column names were renamed for consistency and clarity. Responses were recoded into numeric scales, and missing values were effectively removed.</p></li>
+<li><p>Visualizations, including bar plots and summary tables, were generated to illustrate demographic patterns and telehealth usage.</p></li>
+</ul>
+</section>
+<section id="challenges-i-faced" class="incremental">
+<h3>Challenges I Faced</h3>
+<ul>
+<li><p>Cleaning and restructuring the dataset (e.g., handling missing data for variables like Telehealth usage, Ethnicity, etc.).</p></li>
+<li><p>Re-encoding and categorizing variables (e.g., grouping income ranges, recoding gender and ethnicity categories).</p></li>
+<li><p>Managing discrepancies between data types during transformation (pivot_longer and pivot_wider).</p></li>
+</ul>
+</section>
+<section id="victories-to-celebrate" class="incremental">
+<h3>Victories to Celebrate</h3>
+<ul>
+<li><p>Successfully created a clean dataset with well-defined variables (e.g., Age, Gender, Education, Income, Ethnicity).</p></li>
+<li><p>Generated insightful visualizations to represent telehealth usage distribution across demographics.</p></li>
+<li><p>Comprehensive summary statistics table highlighting demographic distributions and telehealth service usage.</p></li>
+</ul>
+</section>
+<section id="my-cool-figures" class="incremental">
+<h3>My Cool Figures</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="Final_Data_Script_files/figure-html/unnamed-chunk-4-1.png" width="465"></p>
+</figure>
+</div>
+</section>
+<section id="my-cool-figures-1" class="incremental">
+<h3>My Cool Figures</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="Final_Data_Script_files/figure-html/unnamed-chunk-4-2.png" width="416"></p>
+</figure>
+</div>
+</section>
+<section id="my-cool-figures-2" class="incremental">
+<h3>My Cool Figures</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="Final_Data_Script_files/figure-html/unnamed-chunk-4-5.png" width="434"></p>
+</figure>
+</div>
+</section>
+<section id="my-cool-figures-3" class="incremental">
+<h3>My Cool Figures</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="Final_Data_Script_files/figure-html/unnamed-chunk-4-3.png" width="455"></p>
+</figure>
+</div>
+</section>
+<section id="my-cool-figures-4" class="incremental">
+<h3>My Cool Figures</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="Final_Data_Script_files/figure-html/unnamed-chunk-4-4.png" width="422"></p>
+</figure>
+</div>
+</section>
+<section id="findings" class="incremental">
+<h3>Findings</h3>
+<ul>
+<li><p><strong>Age</strong>: Telehealth adoption was highest among middle-aged adults (35-44) and lowest among older adults (65+).</p></li>
+<li><p><strong>Gender</strong>: Female participants were slightly more likely to engage with telehealth services than males.</p></li>
+<li><p><strong>Ethnicity</strong>: White respondents dominated telehealth usage, with moderate representation from Hispanic and Black groups.</p></li>
+</ul>
+</section>
+<section id="findings-1" class="incremental">
+<h3>Findings</h3>
+<ul>
+<li><p><strong>Education</strong>: Higher education levels, especially college graduates and postgraduates, correlated strongly with telehealth adoption.</p></li>
+<li><p><strong>Income</strong>: Telehealth usage increased significantly with higher income levels, particularly among those earning $75K-$199K or more.</p></li>
+</ul>
+</section>
+<section id="continuing-challenges" class="incremental">
+<h3>Continuing Challenges</h3>
+<ul>
+<li><p>Improving the readability and interpretability of demographic summaries for broader audiences.</p></li>
+<li><p>Refining visualizations to emphasize critical findings without overwhelming the audience.</p></li>
+<li><p>Addressing minor inconsistencies in the summarized percentages.</p></li>
+</ul>
+</section>
+<section id="next-r-hurdle" class="incremental">
+<h3>Next R Hurdle</h3>
+<ul>
+<li><p>Incorporating inferential statistical techniques (e.g., chi-square tests) to assess relationships between demographics and telehealth usage.</p></li>
+<li><p>Exploring interaction effects between variables like income and education on telehealth adoption.</p></li>
+<li><p>Automating summary and visualization processes for scalability.</p></li>
+</ul>
+</section>
 </section>
 <section id="rq2.-nakyung" class="slide level2">
 <h2>RQ2. Nakyung</h2>
@@ -429,10 +523,8 @@ can anyone help me inserting an image? I made ‘images’ folder and saved a pn
 <ul>
 <li>Learning how to conduct more complicated statistical analysis to deepen understanding of the relationship between cancer risk perception and Telehealth usage, beyond the distribution</li>
 </ul>
-<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
-</div>
 </div>
 </section>
     </div>
@@ -461,6 +553,7 @@ can anyone help me inserting an image? I made ‘images’ folder and saved a pn
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
+'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -677,7 +770,18 @@ can anyone help me inserting an image? I made ‘images’ folder and saved a pn
         }
         return false;
       }
-      const onCopySuccess = function(e) {
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -709,50 +813,11 @@ can anyone help me inserting an image? I made ‘images’ folder and saved a pn
         }, 1000);
         // clear code selection
         e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
       });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        // For code content inside modals, clipBoardJS needs to be initialized with a container option
-        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-        }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
-            }
-          }
-        }
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      function tippyHover(el, contentFn) {
         const config = {
           allowHTML: true,
+          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -762,17 +827,8 @@ can anyone help me inserting an image? I made ‘images’ folder and saved a pn
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start',
+          placement: 'bottom-start'
         };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 
@@ -786,11 +842,7 @@ can anyone help me inserting an image? I made ‘images’ folder and saved a pn
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
-          }
+          return note.innerHTML;
         });
       }
       const findCites = (el) => {
