@@ -394,10 +394,6 @@ ggplot(data_freq_eng_group, aes(x = telehealth, fill = sm_health_eng_lev_group))
     title = "Health Information Engagement Levels on Social Media\n Among Telehealth Users and Non-Users", 
     x = "Telehealth", y = "Count", 
     fill = "Health Information Engagement Levels\non Social Media")
-
-data_freq_eng_group$sm_health_eng_lev_group <- factor(
-  data_freq_eng_group$sm_health_eng_lev_group, 
-  levels = c("Low", "Medium", "High"))
   
 ggplot(data_freq_eng_group, 
        aes(x = sm_health_eng_lev_group, fill = telehealth)) +
@@ -426,9 +422,17 @@ summary_table_sm_freq <- data_freq_eng_group %>%
   group_by(telehealth, sm_usage_freq) %>% 
   summarize(Count = n()) %>% 
   mutate(Percentage = round(Count / sum(Count) * 100, 2)) %>% 
-  rename(Telehealth = telehealth, SM_Usage_Freqency = sm_usage_freq) 
+  rename("Telehealth" = telehealth, "SM Usage Freqency" = sm_usage_freq) 
 
-kable(summary_table_sm_freq)
+kable(summary_table_sm_freq, caption = "1. Telehealth & Social Media Usage Frequency")
+
+summary_table_sm_freq_2 <- data_freq_eng_group %>% 
+  group_by(telehealth, sm_usage_freq) %>% 
+  summarize(Count = n()) %>% 
+  pivot_wider(names_from = sm_usage_freq, values_from = Count) %>% 
+  rename("Telehealth" = telehealth)
+
+kable(summary_table_sm_freq_2, caption = "2. Telehealth & Social Media Usage Frequency")
 
 # Mean, Median, SD for Social Media Usage Frequency X Telehealth
 
@@ -438,9 +442,9 @@ summary_table_sm_freq_stats <- data_freq_eng_group %>%
             Median = median(sm_usage_freq), 
             SD = round(sd(sm_usage_freq), 2), 
             Count = n()) %>% 
-  rename(Telehealth = telehealth)
+  rename("Telehealth" = telehealth, "Mean" = SM_Usage_Freq_Mean)
 
-kable(summary_table_sm_freq_stats)
+kable(summary_table_sm_freq_stats, caption = "Mean, Median, SD for Social Media Usage Frequency by Telehealth")
 
 # Health Information Engagement Levels on Social Media X Telehealth
 
@@ -449,10 +453,18 @@ summary_table_eng_lev_group <- data_freq_eng_group %>%
   summarize(Count = n()) %>% 
   mutate(Percentage = round(Count / sum(Count) * 100, 2)) %>% 
   rename(
-    Telehealth = telehealth, 
-    SM_Health_Info_Eng = sm_health_eng_lev_group) 
+    "Telehealth" = telehealth, 
+    "HI SM Eng" = sm_health_eng_lev_group) 
 
-kable(summary_table_eng_lev_group)
+kable(summary_table_eng_lev_group, caption = "1. Telehealth & HI SM Engagement Level")
+
+summary_table_eng_lev_group_2 <- data_freq_eng_group %>% 
+  group_by(telehealth, sm_health_eng_lev_group) %>% 
+  summarize(Count = n()) %>% 
+  pivot_wider(names_from = sm_health_eng_lev_group, values_from = Count) %>% 
+  rename("Telehealth" = telehealth)
+
+kable(summary_table_eng_lev_group_2, caption = "2. Telehealth & HI SM Engagement Level")
 
 # Mean, Median, SD for Health Information Engagement Levels on Social Media X Telehealth
 
@@ -461,9 +473,9 @@ summary_table_eng_lev_stats <- data_long %>%
   summarize(SM_Health_Info_Eng_Mean = round(mean(total_sm_health_eng_lev), 2), 
             Median = median(total_sm_health_eng_lev), 
             SD = round(sd(total_sm_health_eng_lev), 2)) %>% 
-  rename(Telehealth = telehealth) 
+  rename("Telehealth" = telehealth, "Mean" = SM_Health_Info_Eng_Mean) 
 
-kable(summary_table_eng_lev_stats)
+kable(summary_table_eng_lev_stats, caption = "Mean, Median, SD for HI SM Engagement Level by Telehealth")
 ```
 
 # RQ3. How does the distribution of cancer-related risk perception groups (low, medium, high) compare between individuals who use and do not use Telehealth services?

@@ -35,7 +35,7 @@ editor: visual
 :::
 
 ::: incremental
-### Challenges I Faced 
+### Challenges I Faced
 
 -   Cleaning and restructuring the dataset (e.g., handling missing data for variables like Telehealth usage, Ethnicity, etc.).
 
@@ -122,7 +122,117 @@ editor: visual
 -   Automating summary and visualization processes for scalability.
 :::
 
-## RQ2. Nakyung
+## RQ2. Social Media Usage Frequency/Health Information Social Media Engagement and Telehealth Usage
+
+**How do social media usage frequency and health information engagement levels on social media differ between Telehealth users and non-users?**
+
+## RQ2. SMF/Health Info SM Engagement
+
+::: incremental
+### My Journey
+
+-   Created a small dataset: select(), rename(), mutate(), recode(), filter()
+-   Grouped data by HI SM engagement level: group_by(), pivot_longer()
+-   Created graphs for analysis: ggplot(), geom_bar()
+-   Calculated descriptive statistics: summarize()
+-   Created tables: pivot_wider(), group_by()
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   NA_real\_ for **numeric** missing value
+
+    ![](images/Challenge%201.png)
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   NA_real\_ for **numeric** missing value
+
+    ![](images/Challenge_1_1-01.png)
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   NA_real\_ for **numeric** missing value
+
+    ![](images/Resol_1.png)
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   NA_real\_ for **numeric** missing value
+
+    ![](images/Resul_1_1-01.png)
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   distinct() for pivot_longer()![](images/Ch222.png)
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   distinct() for pivot_longer()
+
+    ![](images/Chllenge%202_2.png)
+:::
+
+::: incremental
+### My Cool Figures
+
+![](images/G1-01.png){width="900"}
+:::
+
+::: incremental
+### My Cool Figures
+
+![](images/G2.png){fig-align="center" width="900"}
+:::
+
+::: incremental
+### My Cool Figures
+
+![](images/G3.png){fig-align="center" width="850"}
+:::
+
+::: incremental
+### My Cool Figures
+
+![](images/G4.png){fig-align="center" width="900"}
+:::
+
+::: incremental
+### Findings
+
+-   For SMF (*M* = 3.94, *SD* = 1.49 for Users, *M* = 3.60, *SD* = 1.68 for Non-Users), the same pattern was observed.
+-   Almost every day (58% vs. 50%) \> **Never (15% vs. 24%)** \> At least once a week (13% vs.12%) \> A few times a month (8% vs. 7%) \> Less than once a month (6% vs. 6%)
+:::
+
+::: incremental
+### Findings
+
+-   For HI SM engagement level(*M* = 4.9, *SD* = 2.16 for Users, *M* = 4.26, *SD* = 1.71 for Non-Users), the same pattern was found.
+-   The vast majority belonged to the Low group (83% vs. 91%), followed by the Medium (15% vs. 8%), and then the High (3% vs. 1%).
+:::
+
+::: incremental
+### Continuing Challenges
+
+-   Detailed formatting for graphs ![](images/G2-01.png){fig-align="center" width="800"}
+:::
+
+::: incremental
+### Next R Hurdle
+
+-   More advanced data visualization?![](images/3d_chart.png){width="550"}
+:::
 
 ------------------------------------------------------------------------
 
