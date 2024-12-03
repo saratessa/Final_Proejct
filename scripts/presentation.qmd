@@ -1,8 +1,9 @@
 ---
 title: "Investigating Telehealth Usage: Exploring Demographic, Socio-Economic, and Behavioral Influences"
 author: "Songyi Ahn, Nakyung Lee, Nishat Parvez"
-format: revealjs:
-  embeded-resources: true
+format: 
+  revealjs:
+    embeded-resources: true
 editor: visual
 ---
 
@@ -213,7 +214,7 @@ editor: visual
 ### Findings
 
 -   For SMF (*M* = 3.94, *SD* = 1.49 for Users, *M* = 3.60, *SD* = 1.68 for Non-Users), the same pattern was observed.
--   Almost every day (58% vs. 50%) \> **Never (15% vs. 24%)** \> At least once a week (13% vs.12%) \> A few times a month (8% vs. 7%) \> Less than once a month (6% vs. 6%)
+-   **Almost every day** (58% vs. 50%) \> **Never (15% vs. 24%)** \> At least once a week (13% vs.12%) \> A few times a month (8% vs. 7%) \> Less than once a month (6% vs. 6%)
 :::
 
 ::: incremental
