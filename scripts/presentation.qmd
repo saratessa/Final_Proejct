@@ -1,9 +1,8 @@
 ---
 title: "Investigating Telehealth Usage: Exploring Demographic, Socio-Economic, and Behavioral Influences"
 author: "Songyi Ahn, Nakyung Lee, Nishat Parvez"
-format: revealjs
-revealjs:
-  pdf: true 
+format: revealjs:
+  embeded-resources: true
 editor: visual
 ---
 
