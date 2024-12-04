@@ -36,12 +36,6 @@ editor: visual
 -   Visualizations, including bar plots and summary tables, were generated to illustrate demographic patterns and telehealth usage.
 :::
 
-::: nonincremental
-### Challenges I Faced
-
-![](images/Screenshot 2024-12-03 at 4.20.29 PM-02.jpg){width="900"}\
-:::
-
 ::: incremental
 ### Challenges I Faced
 
@@ -63,51 +57,33 @@ editor: visual
 :::
 
 ::: incremental
-### My Cool Figures
+### Findings-1
 
 ![](Final_Data_Script_files/figure-html/unnamed-chunk-4-1.png){fig-align="center" width="600"}
 :::
 
 ::: incremental
-### My Cool Figures
+### Findings-2
 
 ![](Final_Data_Script_files/figure-html/unnamed-chunk-4-2.png){fig-align="center" width="500"}
 :::
 
 ::: incremental
-### My Cool Figures
+### Findings-3
 
 ![](Final_Data_Script_files/figure-html/unnamed-chunk-4-5.png){fig-align="center" width="650"}
 :::
 
 ::: incremental
-### My Cool Figures
+### Findings-4
 
 ![](Final_Data_Script_files/figure-html/unnamed-chunk-4-3.png){fig-align="center" width="600"}
 :::
 
 ::: incremental
-### My Cool Figures
+### Findings-5
 
 ![](Final_Data_Script_files/figure-html/unnamed-chunk-4-4.png){fig-align="center" width="600"}
-:::
-
-::: incremental
-### Findings
-
--   **Age**: Telehealth adoption was highest among middle-aged adults (35-44) and lowest among older adults (65+).
-
--   **Gender**: Female participants were slightly more likely to engage with telehealth services than males.
-
--   **Ethnicity**: White respondents dominated telehealth usage, with moderate representation from Hispanic and Black groups.
-:::
-
-::: incremental
-### Findings
-
--   **Education**: Higher education levels, especially college graduates and postgraduates, correlated strongly with telehealth adoption.
-
--   **Income**: Telehealth usage increased significantly with higher income levels, particularly among those earning \$75K-\$199K or more.
 :::
 
 ::: incremental
