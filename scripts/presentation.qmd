@@ -203,7 +203,7 @@ editor: visual
 ### Findings
 
 -   For HI SM engagement level(*M* = 4.9, *SD* = 2.16 for Users, *M* = 4.26, *SD* = 1.71 for Non-Users), the same pattern was found.
--   The vast majority belonged to the Low group (83% vs. 91%), followed by the Medium (15% vs. 8%), and then the High (3% vs. 1%).
+-   The vast majority belonged to the **Low group (83% vs. 91%)**, followed by the Medium (15% vs. 8%), and then the High (3% vs. 1%).
 :::
 
 ::: incremental
