@@ -82,21 +82,21 @@ health_data_clean <- health_data %>%
     # Recode Gender
     Gender = recode(
       BirthGender,
-      "Male" = "Male",
-      "Female" = "Female",
+      "1" = "Male",
+      "2" = "Female",
       "Missing data (Not Ascertained)" = NA_character_
     ),
     
     # Recode Education
     Education = recode(
       Education,
-      "1" = "Less than 8 years",
-      "2" = "8 through 11 years",             
-      "3" = "12 years or completed high school", 
-      "4" = "Post high school training other than college (vocational or technical)",
-      "5" = "Some college",        
-      "6" = "College graduate",            
-      "7" = "Postgraduate",         
+      "Less than 8 years" = "Low Education",
+      "8 through 11 years" = "Low Education",      
+      "12 years or completed high school" = "Medium Education",
+      "Post high school training other than college (vocational or" = "Medium Education",
+      "Some college" = "High Education",
+      "College graduate" = "High Education",         
+      "Postgraduate" = "High Education",    
       "Missing data (Not Ascertained)" = NA_character_,
       "Missing data (Web partial - Question Never Seen)" = NA_character_
     ),
@@ -105,13 +105,13 @@ health_data_clean <- health_data %>%
     Income = recode(
       IncomeRanges,
       "$0 to $9,999" = "<$10K",
-      "$10,000 to $14,999" = "$10K-$34K",
-      "$15,000 to $19,999" = "$10K-$34K",
-      "$20,000 to $34,999" = "$10K-$34K",
-      "$35,000 to $49,999" = "$35K-$99K",
-      "$50,000 to $74,999" = "$35K-$99K",
-      "$75,000 to $99,999" = "$75K-$199K",
-      "$100,000 and $199,999" = "$75K-$199K",
+      "$10,000 to $14,999" = "$10K-$14K",
+      "$15,000 to $19,999" = "$15K-$19K",
+      "$20,000 to $34,999" = "$20K-$34K",
+      "$35,000 to $49,999" = "$35K-$49K",
+      "$50,000 to $74,999" = "$50K-$74K",
+      "$75,000 to $99,999" = "$75K-$99K",
+      "$100,000 and $199,999" = "$100K-$199K",
       "$200,000 or more" = "$200K",
       "Missing data (Not Ascertained)" = NA_character_,
       "Missing data (Web partial - Question Never Seen)" = NA_character_
@@ -170,6 +170,7 @@ health_data_wide <- health_data_long %>%
 # View the cleaned dataset
 head(health_data_clean)
 
+
 ```
 
 ## RQ1_2: Data Visualization
@@ -183,33 +184,41 @@ demographic_vars <- c("Age", "Gender", "Education", "Income", "Ethnicity")
 create_telehealth_plot <- function(data, var) {
   # Remove missing data for the current variable
   data <- data %>%
-    filter(!is.na(!!sym(var)), !is.na(Telehealth)) 
+    filter(!is.na(!!sym(var)), !is.na(Telehealth)) %>%
+    group_by(!!sym(var), Telehealth) %>%
+    summarise(count = n(), .groups = "drop") %>%
+    mutate(percentage = count / sum(count) * 100) # Calculate percentages
   
-  ggplot(data, aes_string(x = var, fill = "Telehealth")) +
-    geom_bar(position = "dodge") +
+  ggplot(data, aes_string(x = var, y = "count", fill = "Telehealth")) +
+    geom_bar(stat = "identity", position = "dodge", color = "black", width = 0.7) + # Bar chart
+    geom_text(
+      aes(label = paste0(round(percentage, 1), "%")), # Display percentages on bars
+      position = position_dodge(width = 0.7), 
+      vjust = -0.3, size = 3.5 # Adjust position and size of text
+    ) +
     labs(
       title = paste("Telehealth Usage by", var),
       x = var,
       y = "Number of Responses",
       fill = "Telehealth Usage"
     ) +
-    theme_minimal() +
+    scale_fill_brewer(palette = "Set2") + # Use a colorblind-friendly palette
+    theme_minimal(base_size = 14) + # Use a clean theme with larger base font size
     theme(
-      axis.text.x = element_text(angle = 45, hjust = 1),
-      plot.title = element_text(hjust = 0.5)
-    )
-}
-
+      axis.text.x = element_text(angle = 45, hjust = 1), # Rotate x-axis labels for readability
+      axis.title = element_text(face = "bold"), # Bold axis titles
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 16), 
+    # Center and bold title
+      legend.position = "top", # Place legend at the top
+      legend.title = element_text(face = "bold") # Bold legend title
+    )}
 # Loop through each demographic variable and create a plot
 plots <- lapply(demographic_vars, function(var) {
-  create_telehealth_plot(health_data_clean, var)
-})
+  create_telehealth_plot(health_data_clean, var)})
 
 # Display the plots
 for (plot in plots) {
-  print(plot)
-}
-
+  print(plot)}
 ```
 
 ## RQ1_3: Summary Statistics
