@@ -33,6 +33,7 @@ Leveraging the Health Information National Trends Survey data from the National 
 -   *RQ3: How do cancer-related risk perceptions differ between telehealth users and non-users?*
 
 ## Methods
+(please explain what data we used, when it was collected, by whom etc...). For this project, program R created by @r was used for data analysis. Then R packages such as tidyverse [@tidyverse], here [@here], and rio [@rio] were applied.
 
 ```{r}
 # loading pacakages
@@ -55,7 +56,7 @@ load(file_path)
 hints <- public
 ```
 
-# RQ1. What is the distribution of demographic/socio-economic categories, including age, gender, ethnicity, education, and income level, among individuals who do and do not use Telehealth services?
+## Result
 
 ## RQ1_1. Data Cleaning
 
