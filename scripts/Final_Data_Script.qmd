@@ -22,7 +22,7 @@ editor: visual
 
 The increasing adoption of telehealth services has transformed healthcare delivery by offering more accessible and convenient solutions for diverse health needs [@weinstein]. However, ensuring equitable access to these services requires a deeper understanding of the characteristics that influence their utilization. This study focuses on identifying and analyzing demographic, socio-economic, and behavioral factors that differentiate telehealth users from non-users with an exploratory object regarding this matter. By examining these factors, the study seeks to provide rudimentary insights into how telehealth can better serve diverse populations.
 
-Leveraging the Health Information National Trends Survey data from the National Cancer Institute, this research addresses three key areas of inquiry. First, it examines demographic and socio-economic factors—such as age, gender, ethnicity, education, and income—to uncover patterns in telehealth utilization and potential disparities in digital health engagement. Second, it explores social media usage patterns and engagement levels with health information, comparing these between telehealth users and non-users to understand how health information seeking on social media is associated with telehealth utilization. Finally, the study investigates cancer risk perception among telehealth users and non-users to analyze how health awareness is related to telehealth utilization. By integrating these dimensions, the research provides a comprehensive perspective on the drivers of telehealth adoption and their implications for enhancing digital health equity and improving public health outcomes.
+Leveraging the Health Information National Trends Survey data from the National Cancer Institute, this research addresses three key areas of inquiry. First, it examines demographic and socio-economic factors—such as age, gender, ethnicity, education, and income—to uncover patterns in telehealth utilization and potential disparities in digital health engagement because individual characteristics could serve as barriers or facilitators for telehealth access. Second, it explores social media usage patterns and engagement levels with health information, comparing these between telehealth users and non-users. Given the growing role of social media as a source of health information, social media usage and activities regarding health information could be some meaningful factors in understanding people's willingness to adopt the digital healthcare service.  Finally, the study investigates cancer risk perception among telehealth users and non-users to analyze how health awareness is related to telehealth utilization. Since telehealth can be an effective tool for health care or education, grasping how people perceive their cancer risk could help tailor telehealth services to meet the needs of different groups of people. By integrating these dimensions, the research could contribute to a deeper understanding of the telehealth adoption and their role in enhancing digital health equity for public health.
 
 ## Research Questions
 
@@ -33,7 +33,16 @@ Leveraging the Health Information National Trends Survey data from the National 
 -   *RQ3: How do cancer-related risk perceptions differ between telehealth users and non-users?*
 
 ## Methods
-(please explain what data we used, when it was collected, by whom etc...). For this project, program R created by @r was used for data analysis. Then R packages such as tidyverse [@tidyverse], here [@here], and rio [@rio] were applied.
+
+**(please explain what data we used, when it was collected, by whom etc...).** 
+
+Telehealth usage was based on responses to a survey question asking whether the participant had received care from a doctor or health professional through telehealth in the past year, with options of “yes” or “no.” 
+
+**(Please add your own measures here, Nishat and Nakyung!)**
+
+Cancer risk perception was measured by averaging responses to a questionnaire that asked about the participant’s interest in receiving cancer screenings in the coming year, their fear of developing cancer, how susceptible they felt to cancer, their belief in the prevalence of cancer-causing factors, and their opinion on the effectiveness of cancer prevention activities. Responses to these questions were converted into a 5-point Likert scale. Based on the average score, individuals were classified into three groups: those in the lowest third of scores were categorized as “low level,” those in the middle third as “medium level,” and the remaining individuals as “high level.”
+
+For this project, program R created by @r was used for data analysis. Then R packages such as tidyverse [@tidyverse], here [@here], and rio [@rio] were applied.
 
 ```{r}
 # loading pacakages
@@ -58,7 +67,10 @@ hints <- public
 
 ## Result
 
-## RQ1_1. Data Cleaning
+### Demographic Factors and Telehealth
+**please write your results here. Also, mindful in changing the header levels we used for data scripts according to paper components.** 
+
+#### RQ1_1. Data Cleaning
 
 ```{r}
 
@@ -108,7 +120,7 @@ health_data_clean <- health_data %>%
       "Less than 8 years" = "Low Education",
       "8 through 11 years" = "Low Education",      
       "12 years or completed high school" = "Medium Education",
-      "Post high school training other than college (vocational or" = "Medium Education",
+      "Post high school training other than college (vocational or technical)" = "Medium Education",
       "Some college" = "High Education",
       "College graduate" = "High Education",         
       "Postgraduate" = "High Education",    
@@ -188,7 +200,7 @@ head(health_data_clean)
 
 ```
 
-## RQ1_2: Data Visualization
+#### RQ1_2: Data Visualization
 
 ```{r}
 
@@ -236,7 +248,7 @@ for (plot in plots) {
   print(plot)}
 ```
 
-## RQ1_3: Summary Statistics
+#### RQ1_3: Summary Statistics
 
 ```{r}
 
@@ -271,9 +283,10 @@ kable(summary_table_telehealth_stats, caption = "Summary Statistics for Teleheal
 
 ```
 
-# RQ2. How do social media usage frequency and health information engagement levels on social media (low, medium, high) differ between individuals who use and do not use Telehealth services?
+### Social Media Usage Frequency and Health Information Engagement and Telehealth
+**please write your results here. Also, mindful in changing the header levels we used for data scripts according to paper components.**
 
-## RQ2_1. Data Cleaning
+#### RQ2_1. Data Cleaning
 
 ```{r}
 # Selecting relevant columns for RQ2
@@ -350,7 +363,7 @@ data_nl_2 <- data_nl %>%
   filter(telehealth !="Missing")
 ```
 
-## RQ2_2. Grouping by Health Information Engagement Levels on Social Media: pivot_longer()
+#### RQ2_2. Grouping by Health Information Engagement Levels on Social Media: pivot_longer()
 
 ```{r}
 # Reshape health-information-engagement-on-social-media categories into one longer engagement_type column
@@ -377,7 +390,7 @@ data_freq_eng_group <- data_long %>%
                total_sm_health_eng_lev <= 15 ~ "High"))
 ```
 
-## RQ2_3. Data Visualization
+#### RQ2_3. Data Visualization
 
 ```{r}
 # Social Media Usage Frequency x Telehealth
@@ -431,7 +444,7 @@ ggplot(data_freq_eng_group,
     )
 ```
 
-## RQ2_4. Summary Statistics
+#### RQ2_4. Summary Statistics
 
 ```{r}
 # Social Media Usage Frequency X Telehealth 
@@ -502,11 +515,13 @@ summary_table_eng_lev_stats <- data_long %>%
 kable(summary_table_eng_lev_stats, caption = "Mean, Median, SD for HI SM Engagement Level by Telehealth")
 ```
 
-# RQ3. How does the distribution of cancer-related risk perception groups (low, medium, high) compare between individuals who use and do not use Telehealth services?
-
-## RQ3_1. Data Cleaning
-
+### Cancer Risk Perception and Telehealth
+Analysis revealed that regardless of cancer risk perception, there were more individuals who had not used telehealth in the past year (total = 2188) compared to those who had used it (total = 1676). Additionally, as cancer risk perception increased, the number of people who had used telehealth decreased (low = 636, medium = 551, high = 489).
 ```{r}
+#| echo: false
+
+# data cleaning
+
 # Selecting relevant columns for RQ3
 cancer <- hints %>% 
   select(HHID, ReceiveTelehealthCare, InterestedCaScreening, FreqWorryCancer, ChanceGetCancer2, EverythingCauseCancer, PreventNotPossible)
@@ -522,14 +537,10 @@ cancer <- cancer %>%
 
 # Recoding responses
 cancer <- cancer %>% 
-  mutate(telehealth = 
-           recode(telehealth, 
-                  "No telehealth visits in the past 12 months" = "No", 
-                  "Yes, by video" = "Yes", 
-                  "Yes, by phone call (voice only with no video)" = "Yes", 
-                  "Yes, some by video and some by phone call" = "Yes", 
-                  "Missing data (Web partial - Question Never Seen)" = "Missing", 
-                  "Missing data (Not Ascertained)" = "Missing"))
+  mutate(telehealth = fct_collapse(telehealth,
+                  "Yes" = c("Yes, by video", "Yes, by phone call (voice only with no video)", "Yes, some by video and some by phone call"), 
+                  "No" = "No telehealth visits in the past 12 months", 
+                  "Missing" = c("Missing data (Web partial - Question Never Seen)", "Missing data (Not Ascertained)")))
 
 # Creating a dataset for 5 point Likert scale
 cancer_2 <- cancer %>% 
@@ -591,9 +602,11 @@ cancer_2 <- cancer %>%
   filter(telehealth !="Missing")
 ```
 
-## RQ3_2. Grouping by Cancer Risk Perception Groups
-
 ```{r}
+#| echo: false
+
+# grouping by cancer risk perception levels
+
 # Reshape cancer risk perceptions into one longer column
 cancer_long <- cancer_2 %>% 
   pivot_longer(
@@ -612,35 +625,50 @@ cancer_risk_group <- cancer_long %>%
   distinct(HHID, telehealth, riskperceptionlevel) %>% 
   mutate(risk_group = 
            case_when(
-             riskperceptionlevel <= 1.67 ~ "Low", 
-             riskperceptionlevel <= 3.33 ~ "Medium", 
+             riskperceptionlevel <= 2.6 ~ "Low", 
+             riskperceptionlevel <= 3.2 ~ "Medium", 
              riskperceptionlevel <= 5 ~ "High"))
 ```
 
-## RQ3_3. Data Visualization
-
 ```{r}
+#| echo: false
+
+#Data Visualization
+
 # Cancer Risk Levels X Telehealth
 cancer_risk_group %>%
   mutate(risk_group = factor(risk_group, levels = c("Low", "Medium", "High"))) %>%
-  ggplot(aes(x = risk_group, fill = telehealth)) +
-  geom_bar(position = "dodge") +
+  group_by(risk_group, telehealth) %>%
+  summarize(count = n()) %>%
+  mutate(percentage = round(count / sum(count) * 100, 2)) %>%
+  ggplot(aes(x = risk_group, fill = telehealth, y = count)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = paste(percentage, "%", sep = "")), 
+            position = position_dodge(0.9), vjust = -0.5) +
   theme_minimal() +
-  labs(title = "Telehealth Usage by Cancer Risk Perception Levels", 
+  labs(title = "Figure 3.1. Telehealth Usage by Cancer Risk Perception Levels", 
        x = "Cancer Risk Perception Level", 
        y = "Number of Responses", 
        fill = "Telehealth Usage")
 ```
 
-## RQ3_4. Summary Statistics
-
 ```{r}
+#| echo: false
+
+#summary statistics
 # Cancer Risk Levels X Telehealth
 summary_table_cancer_risk_group <- cancer_risk_group %>% 
   group_by(telehealth, risk_group) %>% 
   summarize(count = n()) %>% 
-  mutate(percentage = round(count/sum(count)*100, 2))
-kable(summary_table_cancer_risk_group)
+  mutate(percentage = round(count/sum(count)*100, 2),
+         risk_group = factor(risk_group, levels = c("Low", "Medium", "High")),
+         telehealth = factor(telehealth, levels = c("Yes", "No"))) %>%
+  arrange(telehealth, risk_group)
+kable(summary_table_cancer_risk_group, caption = "Table 3.1. Telehealth Usage by Cancer Risk Perception Levels: Distribution and Proportions")
+```
+However, individuals who had used telehealth had a higher average cancer risk perception (m = 2.90, sd = 1.29) compared to those who had not used telehealth (m = 2.79, sd = 1.30).
+```{r}
+#| echo: false
 
 # Mean, Median, SD for SME X Telehealth
 summary_table_cancer_risk_stats <- cancer_long %>% 
@@ -648,9 +676,10 @@ summary_table_cancer_risk_stats <- cancer_long %>%
   summarize(riskperception_mean = round(mean(riskperceptiondegree), 2), 
             riskperception_median = median(riskperceptiondegree), 
             riskperception_sd = round(sd(riskperceptiondegree), 2))
-kable(summary_table_cancer_risk_stats)
+kable(summary_table_cancer_risk_stats, caption = "Table 3.2. Summary Statistics of Cancer Risk Perception by Telehealth Usage")
 ```
 
-\newpage
+## Discussion
 
+\newpage
 # References
