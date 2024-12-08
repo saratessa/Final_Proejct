@@ -8,19 +8,34 @@ format:
    toc: true
    toc-depth: 5
    toc-location: left
+   self-contained: true
 execute:
   echo: true
   eval: true
   warning: false
   message: false
+bibliography: finalprojectreferences.bib 
 editor: visual
 ---
 
-# Common Work
+## Introduction
 
-## Loading Packages
+The increasing adoption of telehealth services has transformed healthcare delivery by offering more accessible and convenient solutions for diverse health needs [@weinstein]. However, ensuring equitable access to these services requires a deeper understanding of the characteristics that influence their utilization. This study focuses on identifying and analyzing demographic, socio-economic, and behavioral factors that differentiate telehealth users from non-users with an exploratory object regarding this matter. By examining these factors, the study seeks to provide rudimentary insights into how telehealth can better serve diverse populations.
+
+Leveraging the Health Information National Trends Survey data from the National Cancer Institute, this research addresses three key areas of inquiry. First, it examines demographic and socio-economic factors—such as age, gender, ethnicity, education, and income—to uncover patterns in telehealth utilization and potential disparities in digital health engagement. Second, it explores social media usage patterns and engagement levels with health information, comparing these between telehealth users and non-users to understand how health information seeking on social media is associated with telehealth utilization. Finally, the study investigates cancer risk perception among telehealth users and non-users to analyze how health awareness is related to telehealth utilization. By integrating these dimensions, the research provides a comprehensive perspective on the drivers of telehealth adoption and their implications for enhancing digital health equity and improving public health outcomes.
+
+## Research Questions
+
+-   *RQ1: How do demographic and socio-economic factors differ between telehealth users and non-users?*
+
+-   *RQ2: How do social media usage frequency and health information engagement levels differ between telehealth users and non-users?*
+
+-   *RQ3: How do cancer-related risk perceptions differ between telehealth users and non-users?*
+
+## Methods
 
 ```{r}
+# loading pacakages
 #| echo: false
 #| include: false
 
@@ -28,9 +43,8 @@ library(tidyverse)
 library(here)
 library(rio)
 library(knitr)
+library(tinytex)
 ```
-
-## Loading and Renaming the dataset
 
 ```{r}
 # Load the file
@@ -635,3 +649,7 @@ summary_table_cancer_risk_stats <- cancer_long %>%
             riskperception_sd = round(sd(riskperceptiondegree), 2))
 kable(summary_table_cancer_risk_stats)
 ```
+
+\newpage
+
+# References
