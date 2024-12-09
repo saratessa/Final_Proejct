@@ -17,7 +17,9 @@ execute:
 bibliography: finalprojectreferences.bib 
 editor: visual
 ---
+
 ## Abstract
+
 **(please write abstract)**
 
 ## Introduction
@@ -36,13 +38,15 @@ This research addresses three key areas by leveraging the Health Information Nat
 
 ## Methods
 
-**(please explain what data we used, when it was collected, by whom etc...).** 
+**(please explain what data we used, when it was collected, by whom etc...).**
 
-Telehealth usage was based on responses to a survey question asking whether the participant had received care from a doctor or health professional through telehealth in the past year, with options of “yes” or “no.” 
+The research question, "How do demographic and socio-economic factors differ between telehealth users and non-users?" aligns closely with several survey questions from the HINTS data, focusing on telehealth usage, demographic factors such as age, gender, race and ethnicity, education, and household income, as well as socio-economic factors like employment, marital status, and financial comfort. These variables provide a comprehensive framework for analyzing patterns and disparities in telehealth adoption. The data preparation process involved selecting and recoding these variables to enhance interpretability, with missing or ambiguous responses replaced with NA. Ethnicity was harmonized by combining Hispanic and racial data for a unified classification, while educational attainment and income levels were grouped into broader categories. Telehealth usage was simplified into binary categories (e.g., "Yes" or "No"), and unnecessary columns were dropped, with rows containing missing data excluded to ensure completeness. The dataset was then transformed into a long format for targeted filtering and analysis before reverting to its original structure for interpretative consistency. This systematic approach ensures a clean, reliable dataset to examine demographic and socio-economic differences in telehealth usage, contributing to a deeper understanding of accessibility and equity in digital healthcare solutions.
 
-**(Please add your own measures here, Nishat and Nakyung!)**
+**(Please add your own measures here Nakyung!)**
 
-Cancer risk perception was measured by averaging responses to a questionnaire that asked about the participant’s interest in receiving cancer screenings in the coming year, their fear of developing cancer, how susceptible they felt to cancer, their belief in the prevalence of cancer-causing factors, and their opinion on the effectiveness of cancer prevention activities. Responses to these questions were converted into a 5-point Likert scale. Based on the average score, individuals were classified into three groups: those in the lowest third of scores were categorized as “low level,” those in the middle third as “medium level,” and the remaining individuals as “high level.”
+Telehealth usage was based on responses to a survey question asking whether the participant had received care from a doctor or health professional through telehealth in the past year, with options of "yes" or "no."
+
+Cancer risk perception was measured by averaging responses to a questionnaire that asked about the participant's interest in receiving cancer screenings in the coming year, their fear of developing cancer, how susceptible they felt to cancer, their belief in the prevalence of cancer-causing factors, and their opinion on the effectiveness of cancer prevention activities. Responses to these questions were converted into a 5-point Likert scale. Based on the average score, individuals were classified into three groups: those in the lowest third of scores were categorized as "low level," those in the middle third as "medium level," and the remaining individuals as "high level."
 
 For this project, program R created by @r was used for data analysis. Then R packages such as tidyverse [@tidyverse], here [@here], and rio [@rio] were applied.
 
@@ -70,11 +74,13 @@ hints <- public
 ## Result
 
 ### Demographic Factors and Telehealth
-**please write your results here. Also, mindful in changing the header levels we used for data scripts according to paper components.** 
+
+Telehealth usage was positively associated with younger age, higher education levels, and greater income, while disparities were observed among ethnic groups, with lower usage among "Black" and "Hispanic" participants.
 
 #### RQ1_1. Data Cleaning
 
 ```{r}
+#| echo: false
 
 # Select relevant columns for RQ1
 health_data <- hints %>%
@@ -83,6 +89,11 @@ health_data <- hints %>%
 # Recode, rename variables, and handle missing data
 health_data_clean <- health_data %>%
   mutate(
+    # Clean the truncated value in the Education column
+    Education = str_replace(Education, 
+                             "Post high school training other than college.*", 
+                             "Post high school training other than college (vocational)"),
+    
     # Recode Telehealth
     Telehealth = recode(
       ReceiveTelehealthCare,
@@ -122,7 +133,7 @@ health_data_clean <- health_data %>%
       "Less than 8 years" = "Low Education",
       "8 through 11 years" = "Low Education",      
       "12 years or completed high school" = "Medium Education",
-      "Post high school training other than college (vocational or technical)" = "Medium Education",
+      "Post high school training other than college (vocational)" = "Medium Education",
       "Some college" = "High Education",
       "College graduate" = "High Education",         
       "Postgraduate" = "High Education",    
@@ -205,6 +216,7 @@ head(health_data_clean)
 #### RQ1_2: Data Visualization
 
 ```{r}
+#| echo: false
 
 # List of demographic variables to visualize
 demographic_vars <- c("Age", "Gender", "Education", "Income", "Ethnicity")
@@ -247,12 +259,14 @@ plots <- lapply(demographic_vars, function(var) {
 
 # Display the plots
 for (plot in plots) {
-  print(plot)}
+  print(plot)
+}
 ```
 
 #### RQ1_3: Summary Statistics
 
 ```{r}
+#| echo: false
 
 # Grouped summary for demographics and telehealth usage
 summary_table_demographics <- health_data_clean %>%
@@ -285,7 +299,10 @@ kable(summary_table_telehealth_stats, caption = "Summary Statistics for Teleheal
 
 ```
 
+Analysis of demographic factors revealed that individuals who did not use telehealth in the past year (total = 2,188) outnumbered those who did (total = 1,676). Telehealth users were generally younger (`Age_mean` = 2.93) than non-users (`Age_mean` = 3.03), and they had higher education levels on average (`Education_mean` = 3.49, median = 4) compared to non-users (`Education_mean` = 3.30, median = 4). Income levels also showed a positive association with telehealth usage, as users reported higher average income (`Income_mean` = 5.82) than non-users (`Income_mean` = 5.55). Gender differences were relatively minor, with both male and female participants represented similarly across user groups. However, disparities in telehealth adoption were observed among ethnic groups, with higher usage rates among "White" and "Asian or Pacific Islander" participants compared to "Black" and "Hispanic" groups. These findings suggest that younger age, higher education, and greater income are positively associated with telehealth usage, while disparities among ethnic groups highlight potential barriers to access.
+
 ### Social Media Usage Frequency and Health Information Engagement and Telehealth
+
 **please write your results here. Also, mindful in changing the header levels we used for data scripts according to paper components.**
 
 #### RQ2_1. Data Cleaning
@@ -518,7 +535,9 @@ kable(summary_table_eng_lev_stats, caption = "Mean, Median, SD for HI SM Engagem
 ```
 
 ### Cancer Risk Perception and Telehealth
+
 Analysis revealed that regardless of cancer risk perception, there were more individuals who had not used telehealth in the past year (total = 2188) compared to those who had used it (total = 1676). Additionally, as cancer risk perception increased, the number of people who had used telehealth decreased (low = 636, medium = 551, high = 489).
+
 ```{r}
 #| echo: false
 
@@ -668,7 +687,9 @@ summary_table_cancer_risk_group <- cancer_risk_group %>%
   arrange(telehealth, risk_group)
 kable(summary_table_cancer_risk_group, caption = "Table 3.1. Telehealth Usage by Cancer Risk Perception Levels: Distribution and Proportions")
 ```
+
 However, individuals who had used telehealth had a higher average cancer risk perception (m = 2.90, sd = 1.29) compared to those who had not used telehealth (m = 2.79, sd = 1.30).
+
 ```{r}
 #| echo: false
 
@@ -682,11 +703,17 @@ kable(summary_table_cancer_risk_stats, caption = "Table 3.2. Summary Statistics 
 ```
 
 ## Discussion
-**(discussion for RQ1)**
+
+**Demographic Factors and Telehealth Usage**
+
+The findings on demographic factors and telehealth usage revealed that younger individuals, those with higher education levels, and those with greater income are more likely to use telehealth services. However, the lower usage rates among "Black" and "Hispanic" groups highlight disparities that could stem from systemic barriers, including limited access to technology, lower levels of digital literacy, or cultural preferences for in-person care. While telehealth adoption is growing, the demographic disparities suggest that targeted interventions are needed to bridge these gaps.
+
+For example, increasing outreach and education about telehealth benefits in underserved communities, combined with ensuring affordable and reliable access to digital tools, could help enhance adoption [@scott2015]. Additionally, healthcare policies should aim to align telehealth services with the specific needs of different demographic groups [@gallegos-rejas2023]. For individuals with lower income or education levels, providing user-friendly platforms and personalized guidance might improve engagement [@dixit2022]. Meanwhile, culturally sensitive approaches tailored to diverse ethnic groups may foster trust and encourage broader acceptance of telehealth [@willis2022].
 
 **(discussion for RQ2)**
 
 The findings for association between cancer risk perception level and telehealth usage revealed that regardless of the cancer risk perception level, a greater number of individuals had not utilized telehealth compared to those who had. It suggests that telehealth adoption still face some challenges such as accessibility, awareness, or user preferences for in-person care. Especially, considering another result that showed telehealth usage decreased as cancer risk perception levels increased, it can be interpreted that individuals with higher cancer risk perceptions are more likely to seek in-person consultation for perceived severe health concerns. Still, on average, telehealth users reported slightly higher cancer risk perceptions than non-users. This implies that individuals with heightened health concerns are more inclined to use telehealth, possibly as a convenient tool to address their health-related issues. In summary, these results suggest that although telehealth has not yet been fully widespread, future healthcare service policies may utilize telehealth as a complementary tool for face-to-face services. For people with low cancer risk perception, providing healthcare services that actively use telehealth may increase accessibility and efficiency. On the other hand, for people with high cancer concerns, a strategy that provides face-to-face services as the main method while using telehealth as a supplement may be effective. This approach may contribute to devising a plan that can meet the needs of individuals with different levels of risk perception while maximizing the potential of telehealth.
 
 \newpage
+
 # References
