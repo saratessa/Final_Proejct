@@ -704,8 +704,6 @@ kable(summary_table_cancer_risk_stats, caption = "Table 3.2. Summary Statistics 
 
 ## Discussion
 
-**Demographic Factors and Telehealth Usage**
-
 The findings on demographic factors and telehealth usage revealed that younger individuals, those with higher education levels, and those with greater income are more likely to use telehealth services. However, the lower usage rates among "Black" and "Hispanic" groups highlight disparities that could stem from systemic barriers, including limited access to technology, lower levels of digital literacy, or cultural preferences for in-person care. While telehealth adoption is growing, the demographic disparities suggest that targeted interventions are needed to bridge these gaps.
 
 For example, increasing outreach and education about telehealth benefits in underserved communities, combined with ensuring affordable and reliable access to digital tools, could help enhance adoption [@scott2015]. Additionally, healthcare policies should aim to align telehealth services with the specific needs of different demographic groups [@gallegos-rejas2023]. For individuals with lower income or education levels, providing user-friendly platforms and personalized guidance might improve engagement [@dixit2022]. Meanwhile, culturally sensitive approaches tailored to diverse ethnic groups may foster trust and encourage broader acceptance of telehealth [@willis2022].
