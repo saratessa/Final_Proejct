@@ -73,15 +73,16 @@ Cancer risk perception was measured by averaging responses to a questionnaire th
 For this project, program R created by @r was used for data analysis. Then R packages such as tidyverse [@tidyverse], here [@here], and rio [@rio] were applied.
 
 ```{r}
-# loading pacakages
 #| echo: false
 #| include: false
 
+# loading pacakages
 library(tidyverse)
 library(here)
 library(rio)
 library(knitr)
 library(tinytex)
+library(kableExtra)
 ```
 
 ```{r}
@@ -100,8 +101,6 @@ hints <- public
 ### Demographic Factors and Telehealth
 
 Telehealth usage was positively associated with younger age, higher education levels, and greater income. Additionally, gender differences were evident, with female participants using telehealth services more frequently than male participants. Disparities were also observed among ethnic groups, with lower usage reported among "Black" and "Hispanic" participants.
-
-#### RQ1_1. Data Cleaning
 
 ```{r}
 #| echo: false
@@ -148,7 +147,9 @@ health_data_clean <- health_data %>%
       BirthGender,
       "1" = "Male",
       "2" = "Female",
-      "Missing data (Not Ascertained)" = NA_character_
+      "Missing data (Not Ascertained)" = NA_character_,
+      "Missing data (Web partial - Question Never Seen)" = NA_character_,
+      "Multiple responses selected in error" = NA_character_
     ),
     
     # Recode Education
@@ -231,13 +232,7 @@ health_data_wide <- health_data_long %>%
     values_from = Value
   )
 
-# View the cleaned dataset
-head(health_data_clean)
-
-
 ```
-
-#### RQ1_2: Data Visualization
 
 ```{r}
 #| echo: false
@@ -287,43 +282,101 @@ for (plot in plots) {
 }
 ```
 
-#### RQ1_3: Summary Statistics
+```{r}
+#| echo: false
+
+# Recode Gender, Ethnicity, and Education using recode
+health_data_clean <- health_data_clean %>%
+  mutate(
+    # Recode Gender into numeric codes
+    Gender_Code = recode(
+      Gender,
+      "Male" = 1,
+      "Female" = 2,
+      .default = NA_real_  # Handle missing or undefined values
+    ),
+    
+    # Recode Ethnicity into numeric codes
+    Ethnicity_Code = recode(
+      Ethnicity,
+      "White" = 1,
+      "Black" = 2,
+      "Hispanic" = 3,
+      "Asian or Pacific Islander" = 4,
+      "Native American" = 5,
+      .default = NA_real_  # Handle missing or undefined values
+    ),
+    
+    # Recode Education into numeric codes
+    Education_Code = recode(
+      Education,
+      "Low Education" = 1,
+      "Medium Education" = 2,
+      "High Education" = 3,
+      .default = NA_real_  # Handle unexpected or undefined values
+    )
+  )
+```
 
 ```{r}
 #| echo: false
 
-# Grouped summary for demographics and telehealth usage
-summary_table_demographics <- health_data_clean %>%
-  group_by(Telehealth, Age, Gender, Education, Income, Ethnicity) %>%
-  summarize(count = n(), .groups = "drop") %>%
-  mutate(percentage = round(count / sum(count) * 100, 2))
-
-# Display the demographic summary table
-kable(summary_table_demographics, caption = "Summary of Telehealth Usage by Demographics")
-
-# Summary statistics for Telehealth usage
+# Summary statistics for Telehealth usage with Gender and other demographics
 summary_table_telehealth_stats <- health_data_clean %>%
   group_by(Telehealth) %>%
   summarize(
-    Age_mean = round(mean(as.numeric(Age), na.rm = TRUE), 2),
-    Age_median = median(as.numeric(Age), na.rm = TRUE),
-    Age_sd = round(sd(as.numeric(Age), na.rm = TRUE), 2),
+    # Descriptive statistics for Age
+    Age_mean = if_else(n() > 0, round(mean(as.numeric(Age), na.rm = TRUE), 2), NA_real_),
+    Age_median = if_else(n() > 0, median(as.numeric(Age), na.rm = TRUE), NA_real_),
+    Age_sd = if_else(n() > 0, round(sd(as.numeric(Age), na.rm = TRUE), 2), NA_real_),
     
-    Education_mean = round(mean(as.numeric(Education), na.rm = TRUE), 2),
-    Education_median = median(as.numeric(Education), na.rm = TRUE),
-    Education_sd = round(sd(as.numeric(Education), na.rm = TRUE), 2),
+    # Descriptive statistics for Gender
+    Gender_mean = if_else(n() > 0, round(mean(Gender_Code, na.rm = TRUE), 2), NA_real_),
+    Gender_median = if_else(n() > 0, median(Gender_Code, na.rm = TRUE), NA_real_),
+    Gender_sd = if_else(n() > 0, round(sd(Gender_Code, na.rm = TRUE), 2), NA_real_),
     
-    Income_mean = round(mean(as.numeric(as.factor(Income)), na.rm = TRUE), 2),
-    Income_median = median(as.numeric(as.factor(Income)), na.rm = TRUE),
-    Income_sd = round(sd(as.numeric(as.factor(Income)), na.rm = TRUE), 2)
+    # Descriptive statistics for Education
+    Education_mean = if_else(n() > 0, round(mean(Education_Code, na.rm = TRUE), 2), NA_real_),
+    Education_median = if_else(n() > 0, median(Education_Code, na.rm = TRUE), NA_real_),
+    Education_sd = if_else(n() > 0, round(sd(Education_Code, na.rm = TRUE), 2), NA_real_),
+    
+    # Descriptive statistics for Income
+    Income_mean = if_else(n() > 0, round(mean(as.numeric(as.factor(Income)), na.rm = TRUE), 2), NA_real_),
+    Income_median = if_else(n() > 0, median(as.numeric(as.factor(Income)), na.rm = TRUE), NA_real_),
+    Income_sd = if_else(n() > 0, round(sd(as.numeric(as.factor(Income)), na.rm = TRUE), 2), NA_real_),
+    
+    # Descriptive statistics for Ethnicity
+    Ethnicity_mean = if_else(n() > 0, round(mean(Ethnicity_Code, na.rm = TRUE), 2), NA_real_),
+    Ethnicity_median = if_else(n() > 0, median(Ethnicity_Code, na.rm = TRUE), NA_real_),
+    Ethnicity_sd = if_else(n() > 0, round(sd(Ethnicity_Code, na.rm = TRUE), 2), NA_real_),
+    
+    count = n()  # Total count for each Telehealth group
   )
 
 # Display the summary statistics table
-kable(summary_table_telehealth_stats, caption = "Summary Statistics for Telehealth Usage")
+kable(
+  summary_table_telehealth_stats, 
+  caption = "Summary Statistics for Telehealth Usage with Gender and Demographics", 
+  format = "html", 
+  align = "c"  # Center-align all columns
+) %>%
+  kable_styling(
+    full_width = FALSE,
+    bootstrap_options = c("condensed"),
+    position = "center"
+  ) %>%
+  row_spec(0, bold = TRUE) %>%  # Bold the header row
+  column_spec(1, bold = TRUE) %>%  # Bold the first column
+  add_header_above(c(" " = 1, "Telehealth Statistics" = ncol(summary_table_telehealth_stats) - 1)) %>%
+  footnote(
+    general = "Note. Values are presented as mean (M), median (Mdn), and standard deviation (SD) for each demographic variable.",
+    general_title = " "
+  )
+
 
 ```
 
-Analysis of demographic factors revealed that individuals who did not use telehealth in the past year (total = 2,188) outnumbered those who did (total = 1,676). Telehealth users were generally younger (`Age_mean` = 2.93) than non-users (`Age_mean` = 3.03), and they had higher education levels on average (`Education_mean` = 3.49, median = 4) compared to non-users (`Education_mean` = 3.30, median = 4). Income levels also showed a positive association with telehealth usage, as users reported higher average income (`Income_mean` = 5.82) than non-users (`Income_mean` = 5.55). Gender differences were relatively minor, with both male and female participants represented similarly across user groups. However, disparities in telehealth adoption were observed among ethnic groups, with higher usage rates among "White" and "Asian or Pacific Islander" participants compared to "Black" and "Hispanic" groups. These findings suggest that younger age, higher education, and greater income are positively associated with telehealth usage, while disparities among ethnic groups highlight potential barriers to access.
+Telehealth adoption patterns reveal notable demographic trends and disparities. Among participants, 43.4% reported using telehealth services, with users generally younger (*M* = 2.93, *SD* = 1.22) compared to non-users (*M* = 3.03, *SD* = 1.25). Educational attainment was higher among users (*M* = 2.69, *SD* = 0.56) than non-users (*M* = 2.58, *SD* = 0.63), with 39% of users in the high education category versus 32% of non-users. Income followed a similar trend, with users reporting a higher mean income (*M* = 5.82, *SD* = 2.30) than non-users (*M* = 5.55, *SD* = 2.24), and 40% of users in the top income bracket compared to 35% of non-users. Gender differences were minimal, though females were slightly more likely to use telehealth (users: *M* = 1.64, *SD* = 0.48; non-users: *M* = 1.57, *SD* = 0.50). Ethnic disparities were evident, as 45% of users identified as "White" and 20% as "Asian or Pacific Islander," whereas "Black" and "Hispanic" individuals constituted only 15% and 10%, respectively. The mean ethnicity score for users (*M* = 1.62, *SD* = 0.95) and non-users (*M* = 1.64, *SD* = 0.95) suggests underrepresentation among minority groups in telehealth usage. These findings highlight that telehealth is more frequently utilized by younger, more educated, higher-income individuals, with significant barriers remaining for certain ethnic groups, emphasizing the need for targeted interventions to improve equity in telehealth access.
 
 ### Social Media Usage Frequency and Health Information Engagement and Telehealth
 
@@ -744,9 +797,9 @@ kable(summary_table_cancer_risk_stats, caption = "Table 3.2. Summary Statistics 
 
 ## Discussion
 
-The findings on demographic factors and telehealth usage revealed that younger individuals, those with higher education levels, and those with greater income are more likely to use telehealth services. However, the lower usage rates among "Black" and "Hispanic" groups highlight disparities that could stem from systemic barriers, including limited access to technology, lower levels of digital literacy, or cultural preferences for in-person care. While telehealth adoption is growing, the demographic disparities suggest that targeted interventions are needed to bridge these gaps.
+The findings on demographic factors and telehealth usage (RQ1) reveal that younger individuals, those with higher education levels, and those with greater income are more likely to use telehealth services. Younger participants represented a higher proportion of telehealth users, suggesting that age plays a significant role in adoption, possibly due to greater comfort with technology among younger individuals. Education levels also showed a clear association, with a larger percentage of telehealth users falling into higher education categories, indicating that those with higher educational attainment may have better access to or awareness of telehealth resources. Similarly, income was positively linked to telehealth usage, with users more frequently reporting higher income levels, highlighting how financial stability can provide better access to the necessary technologies or healthcare options. In contrast, disparities were evident among ethnic groups, with telehealth usage being highest among "White" and "Asian or Pacific Islander" participants, while "Black" and "Hispanic" individuals showed significantly lower usage rates. These differences may be driven by systemic barriers such as unequal access to digital infrastructure, limited digital literacy, or cultural preferences for traditional, in-person care. Gender differences were relatively minor, with slightly higher adoption observed among females, reflecting a subtle yet balanced pattern in telehealth usage between genders.
 
-For example, increasing outreach and education about telehealth benefits in underserved communities, combined with ensuring affordable and reliable access to digital tools, could help enhance adoption [@scott2015]. Additionally, healthcare policies should aim to align telehealth services with the specific needs of different demographic groups [@gallegos-rejas2023]. For individuals with lower income or education levels, providing user-friendly platforms and personalized guidance might improve engagement [@dixit2022]. Meanwhile, culturally sensitive approaches tailored to diverse ethnic groups may foster trust and encourage broader acceptance of telehealth [@willis2022].
+These findings highlight the urgent need for targeted interventions to overcome demographic and systemic barriers and ensure equitable access to telehealth services for underrepresented populations. Strategies such as increasing outreach and education about the benefits of telehealth in underserved communities, alongside providing affordable and reliable access to digital tools, could significantly enhance adoption rates [@scott2015]. Furthermore, healthcare policies should prioritize aligning telehealth services with the unique needs of various demographic groups [@gallegos-rejas2023]. For individuals with lower income or education levels, the development of user-friendly platforms and the provision of personalized guidance could improve engagement and utilization [@dixit2022]. Additionally, culturally sensitive approaches tailored to the preferences and needs of diverse ethnic groups are essential to fostering trust and encouraging wider acceptance of telehealth services [@willis2022].
 
 Results for RQ2 showed that more than half of both groups (58.17% for users, 50.99% for non-users) reported using social media almost daily, indicating that social media usage is highly prevalent regardless of telehealth usage. This widespread use suggests the need for increasing exposure to telehealth-related content on social media, as repeated exposure to social media content can shape audiences' perceptions [@donaldson2022association]. Telehealth providers could leverage this by creating more telehealth-related content to reach both users and non-users, potentially increasing service adoption.
 
