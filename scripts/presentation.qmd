@@ -1,0 +1,297 @@
+---
+title: "Investigating Telehealth Usage: Exploring Demographic, Socio-Economic, and Behavioral Influences"
+author: "Songyi Ahn, Nakyung Lee, Nishat Parvez"
+format: 
+  revealjs:
+    embeded-resources: true
+editor: visual
+---
+
+## Health Information National Trends Survey (HINTS)
+
+-   National Cancer Institute (NCI)
+-   Digital health technology use
+-   Health information-seeking behavior
+-   Cancer awareness and preventive health practices
+
+------------------------------------------------------------------------
+
+## Research Questions
+
+-   RQ1: How do **demographic and socio-economic factors** differ between telehealth users and non-users?
+-   RQ2: How do **social media usage frequency and health information engagement levels** differ between telehealth users and non-users?
+-   RQ3: How do **cancer-related risk perceptions** differ between telehealth users and non-users?
+
+------------------------------------------------------------------------
+
+## RQ1. Demographic Factors and Telehealth Usage
+
+::: incremental
+### My Journey
+
+-   The dataset includes variables on age group, gender, ethnicity, education, income, and telehealth care usage.
+
+-   Column names were renamed for consistency and clarity. Responses were recoded into numeric scales, and missing values were effectively removed.
+
+-   Visualizations, including bar plots and summary tables, were generated to illustrate demographic patterns and telehealth usage.
+:::
+
+::: incremental
+### Challenges I Faced
+
+-   Cleaning and restructuring the dataset (e.g., handling missing data for variables like Telehealth usage, Ethnicity, etc.).
+
+-   Re-encoding and categorizing variables (e.g., grouping income ranges, recoding gender and ethnicity categories).
+
+-   Managing discrepancies between data types during transformation (pivot_longer and pivot_wider).
+:::
+
+::: incremental
+### Victories to Celebrate
+
+-   Successfully created a clean dataset with well-defined variables (e.g., Age, Gender, Education, Income, Ethnicity).
+
+-   Generated insightful visualizations to represent telehealth usage distribution across demographics.
+
+-   Comprehensive summary statistics table highlighting demographic distributions and telehealth service usage.
+:::
+
+::: incremental
+### Findings-1
+
+![](Final_Data_Script_files/figure-html/unnamed-chunk-4-1.png){fig-align="center" width="600"}
+:::
+
+::: incremental
+### Findings-2
+
+![](Final_Data_Script_files/figure-html/unnamed-chunk-4-2.png){fig-align="center" width="500"}
+:::
+
+::: incremental
+### Findings-3
+
+![](Final_Data_Script_files/figure-html/unnamed-chunk-4-5.png){fig-align="center" width="650"}
+:::
+
+::: incremental
+### Findings-4
+
+![](Final_Data_Script_files/figure-html/unnamed-chunk-4-3.png){fig-align="center" width="600"}
+:::
+
+::: incremental
+### Findings-5
+
+![](Final_Data_Script_files/figure-html/unnamed-chunk-4-4.png){fig-align="center" width="600"}
+:::
+
+::: incremental
+### Continuing Challenges
+
+-   Improving the readability and interpretability of demographic summaries for broader audiences.
+
+-   Refining visualizations to emphasize critical findings without overwhelming the audience.
+
+-   Addressing minor inconsistencies in the summarized percentages.
+:::
+
+::: incremental
+### Next R Hurdle
+
+-   Incorporating inferential statistical techniques (e.g., chi-square tests) to assess relationships between demographics and telehealth usage.
+
+-   Exploring interaction effects between variables like income and education on telehealth adoption.
+
+-   Automating summary and visualization processes for scalability.
+:::
+
+## RQ2. Social Media Usage Frequency/Health Information Social Media Engagement and Telehealth Usage
+
+**How do social media usage frequency and health information engagement levels on social media differ between Telehealth users and non-users?**
+
+## RQ2. SMF/Health Info SM Engagement
+
+::: incremental
+### My Journey
+
+-   Created a small dataset: select(), rename(), mutate(), recode(), filter()
+-   Grouped data by HI SM engagement level: group_by(), pivot_longer()
+-   Created graphs for analysis: ggplot(), geom_bar()
+-   Calculated descriptive statistics: summarize()
+-   Created tables: pivot_wider(), group_by()
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   NA_real\_ for **numeric** missing value
+
+    ![](images/Challenge%201.png)
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   NA_real\_ for **numeric** missing value
+
+    ![](images/Challenge_1_1-01.png)
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   NA_real\_ for **numeric** missing value
+
+    ![](images/Resol_1.png)
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   NA_real\_ for **numeric** missing value
+
+    ![](images/Resul_1_1-01.png)
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   distinct() for pivot_longer()![](images/Ch222.png)
+:::
+
+::: incremental
+### Challenges & Resolutions
+
+-   distinct() for pivot_longer()
+
+    ![](images/Chllenge%202_2.png)
+:::
+
+::: incremental
+### My Cool Figures
+
+![](images/G1-01.png){width="900"}
+:::
+
+::: incremental
+### My Cool Figures
+
+![](images/G2.png){fig-align="center" width="900"}
+:::
+
+::: incremental
+### My Cool Figures
+
+![](images/G3.png){fig-align="center" width="850"}
+:::
+
+::: incremental
+### My Cool Figures
+
+![](images/G4.png){fig-align="center" width="900"}
+:::
+
+::: incremental
+### Findings
+
+-   For SMF (*M* = 3.94, *SD* = 1.49 for Users, *M* = 3.60, *SD* = 1.68 for Non-Users), the same pattern was observed.
+-   **Almost every day** (58% vs. 50%) \> **Never (15% vs. 24%)** \> At least once a week (13% vs.12%) \> A few times a month (8% vs. 7%) \> Less than once a month (6% vs. 6%)
+:::
+
+::: incremental
+### Findings
+
+-   For HI SM engagement level(*M* = 4.9, *SD* = 2.16 for Users, *M* = 4.26, *SD* = 1.71 for Non-Users), the same pattern was found.
+-   The vast majority belonged to the **Low group (83% vs. 91%)**, followed by the Medium (15% vs. 8%), and then the High (3% vs. 1%).
+:::
+
+::: incremental
+### Continuing Challenges
+
+-   Detailed formatting for graphs ![](images/G2-01.png){fig-align="center" width="800"}
+:::
+
+::: incremental
+### Next R Hurdle
+
+-   More advanced data visualization?![](images/3d_chart.png){width="550"}
+:::
+
+## RQ3. Cancer Risk Perception and Telehealth Usage
+
+**How do cancer-related risk perceptions differ between telehealth users and non-users?**
+
+## RQ3. Cancer Risk Perception and Telehealth Usage
+
+::: incremental
+### My Journey
+
+-   selected relevant columns (cancer risk perception: screening willingness, worry, susceptibility, beliefs about causes, prevention feasibility)
+
+-   renamed variables into simpler names
+
+-   recoded responses into consistent numeric scales
+:::
+
+::: incremental
+### My Journey
+
+-   cleaned missing or inapplicable data
+
+-   combined cancer risk perception factors into a single variable and categorized them into three levels (low, medium, and high) based on their average point
+
+-   created data visualization and summary statistics tables
+:::
+
+::: incremental
+### Challenges I Faced, but Succeeded
+
+-   data cleaning: recoding several variables that had different criteria into a consistent numeric formats without any mistakes
+
+-   grouping data: calculating averages across multiple columns using mutate()
+
+-   visualization: using 'dodge' position in geom_bar
+:::
+
+::: incremental
+### My Cool Figures!
+
+![](images/cancer_risk_group_bar-01.png){fig-align="center" width="607"}
+:::
+
+::: incremental
+### Substantive Findings
+
+-   Regardless of cancer risk perception level, there are more people who have never used telehealth than those who have.
+
+![](images/RQ3-1.jpg){fig-align="center" width="400"}
+:::
+
+::: incremental
+### Substantive Findings
+
+-   Individuals with higher risk perceptions are more likely to have used telehealth compared to those with lower risk perceptions.
+
+![](images/RQ3-2.jpg){fig-align="center" width="400"}
+:::
+
+::: incremental
+### Substantive Findings
+
+-   Still, People with high cancer risk perception tend to use telehealth less than those with medium risk perception.
+
+![](images/RQ3-3.jpg){fig-align="center" width="400"}
+:::
+
+::: incremental
+### Continuing Challenges
+
+-   Refining the grouping criteria for low, medium, and high based on their average scores? or sum scores?
+:::
+
+::: incremental
+### Next R Hurdle
+
+-   Learning how to conduct more complicated statistical analysis to deepen understanding of the relationship between cancer risk perception and telehealth usage, beyond the distribution
+:::

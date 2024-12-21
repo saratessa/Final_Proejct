@@ -1,5 +1,5 @@
 ---
-title: "Final_Project"
+title: "Demographics, Social Media Engagement, and Cancer Beliefs: Comparing Telehealth Users and Non-Users"
 author: "Songyi Ahn, Nakyung Lee, Nishat Parvez"
 format:
   html:
@@ -8,31 +8,86 @@ format:
    toc: true
    toc-depth: 5
    toc-location: left
+   self-contained: true
 execute:
   echo: true
   eval: true
   warning: false
   message: false
+bibliography: finalprojectreferences.bib 
 editor: visual
 ---
 
-# Common Work
+## Abstract
 
-## Loading Packages
+This study investigates the factors influencing telehealth adoption and discusses its implications for equitable healthcare delivery. Using data from the Health Information National Trends Survey 6 (HINTS6), conducted by the National Cancer Institute, the research descriptively analyzed demographic and socio-economic characteristics, social media usage and engagement, and cancer risk perception of telehealth users and non-users. The findings reveal that there are barriers or possibly limited access to telehealth among certain populations, alongside facilitators like frequent online health engagement. The results highlight the need for targeted strategies to bridge digital divides and promote equitable access to telehealth services across diverse demographic groups.
+
+***Keywords**:* telehealth, healthcare disparities, social media, cancer risk perception, health behavior analysis.
+
+## Introduction
+
+The increasing adoption of telehealth services has transformed healthcare delivery by offering more accessible and convenient solutions for diverse health needs [@weinstein2014]. However, ensuring equitable access to these services requires a deeper understanding of the characteristics that influence their utilization. This study focuses on identifying and analyzing demographic, socio-economic, and behavioral factors that differentiate telehealth users from non-users with an exploratory object regarding this matter. By examining these factors, the study seeks to provide rudimentary insights into how telehealth can better serve diverse populations.
+
+This research addresses three key areas by leveraging the Health Information National Trends Survey 6 data (HINTS6) from the National Cancer Institute [-@hints]. First, it examines demographic and socio-economic factors to uncover patterns in telehealth usage and potential disparities in digital health engagement because individual characteristics could serve as barriers or facilitators for telehealth access [@rani2019]. Second, it explores social media usage patterns and engagement levels with health information, comparing telehealth users and non-users. Given the growing role of social media as a source of health information [@zhao2017], social media usage and activities regarding health information could be some meaningful factors in understanding people's willingness to adopt digital healthcare services. Finally, the study investigates cancer risk perception among telehealth users and non-users to analyze how health awareness is related to telehealth usage. Since telehealth can be an effective tool for health care or education [@garber2022], grasping how people perceive their cancer risk could help tailor telehealth services to meet the needs of different groups of people. By integrating these dimensions, the research could contribute to a deeper understanding of telehealth adoption and their role in enhancing digital health equity for public health.
+
+## Research Questions
+
+-   *RQ1: How do demographic and socio-economic factors differ between telehealth users and non-users?*
+
+-   *RQ2: How do social media usage frequency and health information engagement levels on social media differ between telehealth users and non-users?*
+
+-   *RQ3: How do cancer-related risk perceptions differ between telehealth users and non-users?*
+
+## Methods
+
+### Overall Methods
+
+To answer the research questions, this study utilized data from the Health Information National Trends Survey 6 (HINTS 6), conducted by the National Cancer Institute between March 7, 2022 and November 8, 2022 [@hints1]. The HINTS 6 dataset captures the American public's knowledge, attitudes, and behaviors related to various health topics [@hints1]. For this study, we focused on sectors including telehealth usage, demographics, social media usage and engagement, and cancer-related beliefs. The publicly available HINTS 6 for R dataset, accessible on the HINTS website, was used for analysis. The original data were collected using a mailing approach, where participants received both a web survey link and a paper survey [@hints1]. The sampling method followed a stratified design based on U.S. addresses, categorized into four strata: high/low minority population and rural/urban areas [@hints1]. All households received \$2 for their participation [@hints1]. The total number of participants in the HINTS6 survey was 6,252. However, the sample size for each research question varied, as missing responses were excluded from the analyses relevant to each research question. Detailed methods for each question are discussed below.
+
+### Methods for RQ1
+
+The RQ1 was examined using a structured data preparation and analysis approach based on HINTS survey data. This involved selecting relevant variables, including telehealth usage, age, gender, ethnicity, education, and household income. These variables provided a robust framework for analyzing patterns and disparities in telehealth adoption.
+
+The data preparation process began by selecting key variables using the select function. Variables were then cleaned and recoded to enhance interpretability. For instance, telehealth usage was simplified into a binary format (Yes or No), and missing or ambiguous responses were replaced with NA. Age groups were recoded into brackets (e.g., "18-24", "25-34"), and gender was categorized into "Male" and "Female." Education levels were consolidated into three categories: "Low Education," "Medium Education," and "High Education," while income ranges were grouped into brackets such as \<\$10K and \$10K--\$14K. Ethnicity data were harmonized by integrating Hispanic and racial information into unified categories such as "White," "Black," "Asian or Pacific Islander," and "Hispanic."
+
+Unnecessary columns were dropped, and rows containing missing data were omitted to ensure a clean and complete dataset. The pivot_longer function transformed the dataset into a long format, enabling targeted filtering and ensuring no missing values in the analysis. Subsequently, the dataset was reshaped to its original structure using pivot_wider for consistency in interpretation.
+
+Visualizations were created for each demographic variable using the *ggplot2* package, providing insights into telehealth usage patterns by age, gender, education, income, and ethnicity. Summary statistics, such as means and medians, were computed to further describe the differences between telehealth users and non-users. This comprehensive approach facilitated an in-depth understanding of the demographic and socio-economic disparities in telehealth adoption, contributing to efforts to enhance equity in digital healthcare solutions.
+
+### Methods for RQ2
+
+For RQ2, the original HINTS survey questionnaires on telehealth usage, social media frequency, and health information engagement on social media were utilized. All missing responses were excluded for the analysis.
+
+In the HINTS data, telehealth usage was measured with the question: "In the past 12 months, did you receive care from a doctor or health professional using telehealth?" Participants had four response options: (1) Yes, by video, (2) Yes, by phone call, (3) Yes, some by video and some by phone call, and (4) No telehealth visits in the past 12 months. For this study, the three 'Yes' options were grouped as the 'Yes' category, while option (4) was categorized as the 'No' group.
+
+Social media usage frequency was measured with the question: "In the last 12 months, how often did you visit a social media site?" Participants chose one from five options: (1) Almost every day, (2) At least once a week, (3) A few times a month, (4) Less than once a month, and (5) Never. These were recoded into 5-point Likert scale, where 'Never' was 1, 'Less than once a month' was 2, 'A few times a month' was 3, 'At least once a week' was 4, 'Almost every day' was 5.
+
+There were three questionnaires asking about health information engagement on social media. The first asked about sharing behavior, specifically, "In the last 12 months, how often did you share personal health information on social media?" The second question focused on interacting behavior with the question, "In the last 12 months, how often did you interact with people who have similar health or medical issues on social media or online forums?" The third question addressed watching behavior, asking, "In the last 12 months, how often did you watch a health-related video on a social media site?" Applying the same recoding approach as for social media usage frequency, responses, ranging from 'Never' to 'Almost every day,' were recoded into a 5-point Likert scale. The average score for each participant was calculated from the three items. Participants with an average score in the upper one-third of the distribution had a score of 1.00 or lower, while those in the upper two-thirds had a score of 1.67 or lower, with the maximum possible average score being 5. Using these relative thresholds, participants were categorized into three engagement groups: the Low group, with an average score of 1.00 or lower; the Medium group, with an average score greater than 1.00 but not exceeding 1.67; and the High group, which included all remaining participants with higher scores.
+
+### Methods for RQ3
+
+For RQ3, the original HINTS survey questionnaires on telehealth usage, cancer screening and awareness, and beliefs about cancer were selected. Similar to RQ2, telehealth usage was based on responses to a survey question asking whether the participant had received care from a doctor or health professional through telehealth in the past year. After recoding the answers either "yes" or "no", and excluding all missing responses, the results were used in the analysis.
+
+Cancer risk perception was measured by averaging responses to a questionnaire that asked about the participant's interest in receiving cancer screenings in the coming year ("How interested are you in having a cancer screening test in the next year?"), their fear of developing cancer ("How worried are you about getting cancer?"), how susceptible they felt to cancer ("Compared to other people your age, how likely do you think you are to get cancer in your lifetime?"), their belief in the prevalence of cancer-causing factors ("How much do you agree or disagree that it seems like everything causes cancer?"), and their opinion on the effectiveness of cancer prevention activities ("How much do you agree or disagree that there's not much you can do to lower your changes of getting cancer?"). Responses to these questions were converted into a 5-point Likert scale, where lower scores represented lower cancer risk perception, and higher scores represented higher cancer risk perception. Based on the average score, individuals were classified into three groups: those in the lowest third of scores were categorized as "low level," those in the middle third as "medium level," and the remaining individuals as "high level."
+
+For this project, program R created by @r was used for data analysis. Then R packages such as tidyverse [@tidyverse], here [@here], and rio [@rio] were applied.
 
 ```{r}
 #| echo: false
 #| include: false
 
+# loading pacakages
 library(tidyverse)
 library(here)
 library(rio)
 library(knitr)
+library(tinytex)
+library(kableExtra)
 ```
 
-## Loading and Renaming the dataset
-
 ```{r}
+#| echo: false
+
 # Load the file
 file_path <- here("data", "hints6_public.rda")
 load(file_path)
@@ -41,11 +96,14 @@ load(file_path)
 hints <- public
 ```
 
-# RQ1. What is the distribution of demographic/socio-economic categories, including age, gender, ethnicity, education, and income level, among individuals who do and do not use Telehealth services?
+## Result
 
-## RQ1_1. Data Cleaning
+### Demographic Factors and Telehealth
+
+Telehealth usage was positively associated with younger age, higher education levels, and greater income. Additionally, gender differences were evident, with female participants using telehealth services more frequently than male participants. Disparities were also observed among ethnic groups, with lower usage reported among "Black" and "Hispanic" participants.
 
 ```{r}
+#| echo: false
 
 # Select relevant columns for RQ1
 health_data <- hints %>%
@@ -54,6 +112,11 @@ health_data <- hints %>%
 # Recode, rename variables, and handle missing data
 health_data_clean <- health_data %>%
   mutate(
+    # Clean the truncated value in the Education column
+    Education = str_replace(Education, 
+                             "Post high school training other than college.*", 
+                             "Post high school training other than college (vocational)"),
+    
     # Recode Telehealth
     Telehealth = recode(
       ReceiveTelehealthCare,
@@ -82,21 +145,23 @@ health_data_clean <- health_data %>%
     # Recode Gender
     Gender = recode(
       BirthGender,
-      "Male" = "Male",
-      "Female" = "Female",
-      "Missing data (Not Ascertained)" = NA_character_
+      "1" = "Male",
+      "2" = "Female",
+      "Missing data (Not Ascertained)" = NA_character_,
+      "Missing data (Web partial - Question Never Seen)" = NA_character_,
+      "Multiple responses selected in error" = NA_character_
     ),
     
     # Recode Education
     Education = recode(
       Education,
-      "1" = "Less than 8 years",
-      "2" = "8 through 11 years",             
-      "3" = "12 years or completed high school", 
-      "4" = "Post high school training other than college (vocational or technical)",
-      "5" = "Some college",        
-      "6" = "College graduate",            
-      "7" = "Postgraduate",         
+      "Less than 8 years" = "Low Education",
+      "8 through 11 years" = "Low Education",      
+      "12 years or completed high school" = "Medium Education",
+      "Post high school training other than college (vocational)" = "Medium Education",
+      "Some college" = "High Education",
+      "College graduate" = "High Education",         
+      "Postgraduate" = "High Education",    
       "Missing data (Not Ascertained)" = NA_character_,
       "Missing data (Web partial - Question Never Seen)" = NA_character_
     ),
@@ -105,13 +170,13 @@ health_data_clean <- health_data %>%
     Income = recode(
       IncomeRanges,
       "$0 to $9,999" = "<$10K",
-      "$10,000 to $14,999" = "$10K-$34K",
-      "$15,000 to $19,999" = "$10K-$34K",
-      "$20,000 to $34,999" = "$10K-$34K",
-      "$35,000 to $49,999" = "$35K-$99K",
-      "$50,000 to $74,999" = "$35K-$99K",
-      "$75,000 to $99,999" = "$75K-$199K",
-      "$100,000 and $199,999" = "$75K-$199K",
+      "$10,000 to $14,999" = "$10K-$14K",
+      "$15,000 to $19,999" = "$15K-$19K",
+      "$20,000 to $34,999" = "$20K-$34K",
+      "$35,000 to $49,999" = "$35K-$49K",
+      "$50,000 to $74,999" = "$50K-$74K",
+      "$75,000 to $99,999" = "$75K-$99K",
+      "$100,000 and $199,999" = "$100K-$199K",
       "$200,000 or more" = "$200K",
       "Missing data (Not Ascertained)" = NA_character_,
       "Missing data (Web partial - Question Never Seen)" = NA_character_
@@ -167,14 +232,10 @@ health_data_wide <- health_data_long %>%
     values_from = Value
   )
 
-# View the cleaned dataset
-head(health_data_clean)
-
 ```
 
-## RQ1_2: Data Visualization
-
 ```{r}
+#| echo: false
 
 # List of demographic variables to visualize
 demographic_vars <- c("Age", "Gender", "Education", "Income", "Ethnicity")
@@ -183,78 +244,153 @@ demographic_vars <- c("Age", "Gender", "Education", "Income", "Ethnicity")
 create_telehealth_plot <- function(data, var) {
   # Remove missing data for the current variable
   data <- data %>%
-    filter(!is.na(!!sym(var)), !is.na(Telehealth)) 
+    filter(!is.na(!!sym(var)), !is.na(Telehealth)) %>%
+    group_by(!!sym(var), Telehealth) %>%
+    summarise(count = n(), .groups = "drop") %>%
+    mutate(percentage = count / sum(count) * 100) # Calculate percentages
   
-  ggplot(data, aes_string(x = var, fill = "Telehealth")) +
-    geom_bar(position = "dodge") +
+  ggplot(data, aes_string(x = var, y = "count", fill = "Telehealth")) +
+    geom_bar(stat = "identity", position = "dodge", color = "black", width = 0.7) + # Bar chart
+    geom_text(
+      aes(label = paste0(round(percentage, 1), "%")), # Display percentages on bars
+      position = position_dodge(width = 0.7), 
+      vjust = -0.3, size = 3.5 # Adjust position and size of text
+    ) +
     labs(
       title = paste("Telehealth Usage by", var),
       x = var,
       y = "Number of Responses",
       fill = "Telehealth Usage"
     ) +
-    theme_minimal() +
+    scale_fill_brewer(palette = "Set2") + # Use a colorblind-friendly palette
+    theme_minimal(base_size = 14) + # Use a clean theme with larger base font size
     theme(
-      axis.text.x = element_text(angle = 45, hjust = 1),
-      plot.title = element_text(hjust = 0.5)
-    )
-}
-
+      axis.text.x = element_text(angle = 45, hjust = 1), # Rotate x-axis labels for readability
+      axis.title = element_text(face = "bold"), # Bold axis titles
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 16), 
+    # Center and bold title
+      legend.position = "top", # Place legend at the top
+      legend.title = element_text(face = "bold") # Bold legend title
+    )}
 # Loop through each demographic variable and create a plot
 plots <- lapply(demographic_vars, function(var) {
-  create_telehealth_plot(health_data_clean, var)
-})
+  create_telehealth_plot(health_data_clean, var)})
 
 # Display the plots
 for (plot in plots) {
   print(plot)
 }
-
-
-
-
 ```
 
-## RQ1_3: Summary Statistics
+```{r}
+#| echo: false
+
+# Recode Gender, Ethnicity, and Education using recode
+health_data_clean <- health_data_clean %>%
+  mutate(
+    # Recode Gender into numeric codes
+    Gender_Code = recode(
+      Gender,
+      "Male" = 1,
+      "Female" = 2,
+      .default = NA_real_  # Handle missing or undefined values
+    ),
+    
+    # Recode Ethnicity into numeric codes
+    Ethnicity_Code = recode(
+      Ethnicity,
+      "White" = 1,
+      "Black" = 2,
+      "Hispanic" = 3,
+      "Asian or Pacific Islander" = 4,
+      "Native American" = 5,
+      .default = NA_real_  # Handle missing or undefined values
+    ),
+    
+    # Recode Education into numeric codes
+    Education_Code = recode(
+      Education,
+      "Low Education" = 1,
+      "Medium Education" = 2,
+      "High Education" = 3,
+      .default = NA_real_  # Handle unexpected or undefined values
+    )
+  )
+```
 
 ```{r}
+#| echo: false
 
-# Grouped summary for demographics and telehealth usage
-summary_table_demographics <- health_data_clean %>%
-  group_by(Telehealth, Age, Gender, Education, Income, Ethnicity) %>%
-  summarize(count = n(), .groups = "drop") %>%
-  mutate(percentage = round(count / sum(count) * 100, 2))
-
-# Display the demographic summary table
-kable(summary_table_demographics, caption = "Summary of Telehealth Usage by Demographics")
-
-# Summary statistics for Telehealth usage
+# Summary statistics for Telehealth usage with Gender and other demographics
 summary_table_telehealth_stats <- health_data_clean %>%
   group_by(Telehealth) %>%
   summarize(
-    Age_mean = round(mean(as.numeric(Age), na.rm = TRUE), 2),
-    Age_median = median(as.numeric(Age), na.rm = TRUE),
-    Age_sd = round(sd(as.numeric(Age), na.rm = TRUE), 2),
+    # Descriptive statistics for Age
+    Age_mean = if_else(n() > 0, round(mean(as.numeric(Age), na.rm = TRUE), 2), NA_real_),
+    Age_median = if_else(n() > 0, median(as.numeric(Age), na.rm = TRUE), NA_real_),
+    Age_sd = if_else(n() > 0, round(sd(as.numeric(Age), na.rm = TRUE), 2), NA_real_),
     
-    Education_mean = round(mean(as.numeric(Education), na.rm = TRUE), 2),
-    Education_median = median(as.numeric(Education), na.rm = TRUE),
-    Education_sd = round(sd(as.numeric(Education), na.rm = TRUE), 2),
+    # Descriptive statistics for Gender
+    Gender_mean = if_else(n() > 0, round(mean(Gender_Code, na.rm = TRUE), 2), NA_real_),
+    Gender_median = if_else(n() > 0, median(Gender_Code, na.rm = TRUE), NA_real_),
+    Gender_sd = if_else(n() > 0, round(sd(Gender_Code, na.rm = TRUE), 2), NA_real_),
     
-    Income_mean = round(mean(as.numeric(as.factor(Income)), na.rm = TRUE), 2),
-    Income_median = median(as.numeric(as.factor(Income)), na.rm = TRUE),
-    Income_sd = round(sd(as.numeric(as.factor(Income)), na.rm = TRUE), 2)
+    # Descriptive statistics for Education
+    Education_mean = if_else(n() > 0, round(mean(Education_Code, na.rm = TRUE), 2), NA_real_),
+    Education_median = if_else(n() > 0, median(Education_Code, na.rm = TRUE), NA_real_),
+    Education_sd = if_else(n() > 0, round(sd(Education_Code, na.rm = TRUE), 2), NA_real_),
+    
+    # Descriptive statistics for Income
+    Income_mean = if_else(n() > 0, round(mean(as.numeric(as.factor(Income)), na.rm = TRUE), 2), NA_real_),
+    Income_median = if_else(n() > 0, median(as.numeric(as.factor(Income)), na.rm = TRUE), NA_real_),
+    Income_sd = if_else(n() > 0, round(sd(as.numeric(as.factor(Income)), na.rm = TRUE), 2), NA_real_),
+    
+    # Descriptive statistics for Ethnicity
+    Ethnicity_mean = if_else(n() > 0, round(mean(Ethnicity_Code, na.rm = TRUE), 2), NA_real_),
+    Ethnicity_median = if_else(n() > 0, median(Ethnicity_Code, na.rm = TRUE), NA_real_),
+    Ethnicity_sd = if_else(n() > 0, round(sd(Ethnicity_Code, na.rm = TRUE), 2), NA_real_),
+    
+    count = n()  # Total count for each Telehealth group
   )
 
 # Display the summary statistics table
-kable(summary_table_telehealth_stats, caption = "Summary Statistics for Telehealth Usage")
+kable(
+  summary_table_telehealth_stats, 
+  caption = "Summary Statistics for Telehealth Usage with Gender and Demographics", 
+  format = "html", 
+  align = "c"  # Center-align all columns
+) %>%
+  kable_styling(
+    full_width = FALSE,
+    bootstrap_options = c("condensed"),
+    position = "center"
+  ) %>%
+  row_spec(0, bold = TRUE) %>%  # Bold the header row
+  column_spec(1, bold = TRUE) %>%  # Bold the first column
+  add_header_above(c(" " = 1, "Telehealth Statistics" = ncol(summary_table_telehealth_stats) - 1)) %>%
+  footnote(
+    general = "Note. Values are presented as mean (M), median (Mdn), and standard deviation (SD) for each demographic variable.",
+    general_title = " "
+  )
+
 
 ```
 
-# RQ2. How do social media usage frequency and health information engagement levels on social media (low, medium, high) differ between individuals who use and do not use Telehealth services?
+Telehealth adoption patterns reveal notable demographic trends and disparities. Among participants, 43.4% reported using telehealth services, with users generally younger (*M* = 2.93, *SD* = 1.22) compared to non-users (*M* = 3.03, *SD* = 1.25). Educational attainment was higher among users (*M* = 2.69, *SD* = 0.56) than non-users (*M* = 2.58, *SD* = 0.63), with 39% of users in the high education category versus 32% of non-users. Income followed a similar trend, with users reporting a higher mean income (*M* = 5.82, *SD* = 2.30) than non-users (*M* = 5.55, *SD* = 2.24), and 40% of users in the top income bracket compared to 35% of non-users. Gender differences were minimal, though females were slightly more likely to use telehealth (users: *M* = 1.64, *SD* = 0.48; non-users: *M* = 1.57, *SD* = 0.50). Ethnic disparities were evident, as 45% of users identified as "White" and 20% as "Asian or Pacific Islander," whereas "Black" and "Hispanic" individuals constituted only 15% and 10%, respectively. The mean ethnicity score for users (*M* = 1.62, *SD* = 0.95) and non-users (*M* = 1.64, *SD* = 0.95) suggests underrepresentation among minority groups in telehealth usage. These findings highlight that telehealth is more frequently utilized by younger, more educated, higher-income individuals, with significant barriers remaining for certain ethnic groups, emphasizing the need for targeted interventions to improve equity in telehealth access.
 
-## RQ2_1. Data Cleaning
+### Social Media Usage Frequency and Health Information Engagement and Telehealth
+
+After excluding all missing responses, for RQ2, the total number of telehealth users was 2,448, and the number of non-users was 3,422, resulting in a total sample size of 5,870.
+
+For social media usage frequency, similar patterns were observed among telehealth users and non-users (See Figure 2.1). Among telehealth users, the most frequent response was "Almost every day" (58.17%), followed by "Never" (14.62%), "At least once a week" (12.83%), "A few times a month" (8.17%), and "Less than once a month" (6.21%). Non-users displayed the same pattern, with "Almost every day" being the most frequent response (50.99%), followed by "Never" (23.7%), "At least once a week" (11.63%), "A few times a month" (7.42%), and "Less than once a month" (6.25%). On a 7-point Likert scale, where 1 represents "Never" and 5 represents "Almost every day," the median response was 5 for both telehealth users and non-users (See Table 2.3).
+
+However, the average frequency was slightly higher for telehealth users (*M* = 3.94, *SD* = 1.49) compared to non-users (*M* = 3.60, *SD* = 1.68). While the overall pattern was consistent, telehealth users reported a noticeably higher percentage for "Almost every day" (58.17%) compared to non-users (50.99%), and a lower percentage for "Never" (14.62%) compared to non-users (23.7%). The results highlight that telehealth users were more likely to use social media frequently and less likely to never use it.
 
 ```{r}
+#| echo: false
+
+# RQ2_1. Data Cleaning
+
 # Selecting relevant columns for RQ2
 
 data_nl <- hints %>% 
@@ -329,9 +465,11 @@ data_nl_2 <- data_nl %>%
   filter(telehealth !="Missing")
 ```
 
-## RQ2_2. Grouping by Health Information Engagement Levels on Social Media: pivot_longer()
-
 ```{r}
+#| echo: false
+
+# RQ2_2. Grouping by Health Information Engagement Levels on Social Media: pivot_longer()
+
 # Reshape health-information-engagement-on-social-media categories into one longer engagement_type column
 
 data_long <- data_nl_2 %>% 
@@ -342,82 +480,50 @@ data_long <- data_nl_2 %>%
 
 data_long <- data_long %>% 
   group_by(HHID) %>% 
-  mutate(total_sm_health_eng_lev = sum(frequency))
+  mutate(total_sm_health_eng_lev = mean(frequency, na.rm = TRUE))
 
 data_freq_eng_group <- data_long %>% 
   distinct(HHID, telehealth, sm_usage_freq, total_sm_health_eng_lev) %>% 
   mutate(sm_health_eng_lev_group = 
            case_when(
-             total_sm_health_eng_lev >= 3 & 
-               total_sm_health_eng_lev <= 6 ~ "Low",
-             total_sm_health_eng_lev >= 7 & 
-               total_sm_health_eng_lev <= 10 ~ "Medium",
-             total_sm_health_eng_lev >= 11 & 
-               total_sm_health_eng_lev <= 15 ~ "High"))
+             total_sm_health_eng_lev <= 1 ~ "Low",
+             total_sm_health_eng_lev > 1 & 
+               total_sm_health_eng_lev <= 1.67 ~ "Medium",
+             total_sm_health_eng_lev > 1.67 & 
+               total_sm_health_eng_lev <= 5 ~ "High"))
 ```
 
-## RQ2_3. Data Visualization
-
 ```{r}
-# Social Media Usage Frequency x Telehealth
+#| echo: false
 
-ggplot(data_freq_eng_group, aes(x = telehealth, fill = as.factor(sm_usage_freq)))+
-         geom_bar() +
-  scale_fill_discrete(
-    labels = c("Never", "Less than once a month", 
-               "A few times a month", "At least once a week", 
-               "Almost every day")) +
-         theme_minimal() +
-  labs(
-    title = "Social Media Usage Frequency\nAmong Telehealth Users and Non-Users", 
-       x = "Telehealth", y = "Count", 
-       fill = "Social Media Usage Frequency")
+# RQ2_3. Data Visualization and Summary Statistics for Social Media Usage Frequency
 
-ggplot(data_freq_eng_group, aes(
-  x = as.factor(sm_usage_freq), fill = telehealth)) +
-  geom_bar(position = "dodge") +
+# Bar graph
+
+data_smuf <- data_freq_eng_group %>% 
+  group_by(telehealth, sm_usage_freq) %>% 
+  summarize(count = n()) %>% 
+  group_by(telehealth) %>% 
+  mutate(percent_freq = round(count/sum(count) * 100, 2))
+
+ggplot(data_smuf, aes(x = as.factor(sm_usage_freq), fill = telehealth, y = count)) +
+  geom_bar(stat = "identity", position = "dodge") +
+    geom_text(aes(label = paste(percent_freq, "%", sep = "")),
+               position = position_dodge(width = 0.9), vjust = -0.5) +
    scale_x_discrete(
     labels = c("Never", "<1/M", 
                "A few/M", "≥1/W", 
                "Every day")) +
         theme_minimal() +
+  theme(axis.text.x = element_text(size = 9)) +
     labs(
-      title = "Telehealth Usage by Social Media Usage Frequency",
+      title = "Figure 2.1 Telehealth Usage by Social Media Usage Frequency",
       x = "Social Media Usage Frequency",
       y = "Count",
       fill = "Telehealth Usage"
     )
 
-# Health Information Engagement Levels on Social Media X Telehealth
-
-ggplot(data_freq_eng_group, aes(x = telehealth, fill = sm_health_eng_lev_group)) +
-  geom_bar() +
-  theme_minimal() +
-  labs(
-    title = "Health Information Engagement Levels on Social Media\n Among Telehealth Users and Non-Users", 
-    x = "Telehealth", y = "Count", 
-    fill = "Health Information Engagement Levels\non Social Media")
-
-data_freq_eng_group$sm_health_eng_lev_group <- factor(
-  data_freq_eng_group$sm_health_eng_lev_group, 
-  levels = c("Low", "Medium", "High"))
-  
-ggplot(data_freq_eng_group, 
-       aes(x = sm_health_eng_lev_group, fill = telehealth)) +
-    geom_bar(position = "dodge") +
-    theme_minimal() +
-    labs(
-      title = "Telehealth Usage by Health Information Engagement\nLevels on Social Media", 
-      x = "Health Information Engagement Levels\non Social Media",
-      y = "Count",
-      fill = "Telehealth Usage"
-    )
-```
-
-## RQ2_4. Summary Statistics
-
-```{r}
-# Social Media Usage Frequency X Telehealth 
+# Summary Statistics 
 
 summary_table_sm_freq <- data_freq_eng_group %>% 
   mutate(sm_usage_freq = case_when(
@@ -429,9 +535,17 @@ summary_table_sm_freq <- data_freq_eng_group %>%
   group_by(telehealth, sm_usage_freq) %>% 
   summarize(Count = n()) %>% 
   mutate(Percentage = round(Count / sum(Count) * 100, 2)) %>% 
-  rename(Telehealth = telehealth, SM_Usage_Freqency = sm_usage_freq) 
+  rename("Telehealth" = telehealth, "SM Usage Freqency" = sm_usage_freq) 
 
-kable(summary_table_sm_freq)
+kable(summary_table_sm_freq, caption = "Table 2.1 Telehealth & Social Media Usage Frequency")
+
+summary_table_sm_freq_2 <- data_freq_eng_group %>% 
+  group_by(telehealth, sm_usage_freq) %>% 
+  summarize(Count = n()) %>% 
+  pivot_wider(names_from = sm_usage_freq, values_from = Count) %>% 
+  rename("Telehealth" = telehealth)
+
+kable(summary_table_sm_freq_2, caption = "Table 2.2 Telehealth & Social Media Usage Frequency")
 
 # Mean, Median, SD for Social Media Usage Frequency X Telehealth
 
@@ -441,39 +555,87 @@ summary_table_sm_freq_stats <- data_freq_eng_group %>%
             Median = median(sm_usage_freq), 
             SD = round(sd(sm_usage_freq), 2), 
             Count = n()) %>% 
-  rename(Telehealth = telehealth)
+  rename("Telehealth" = telehealth, "Mean" = SM_Usage_Freq_Mean)
 
-kable(summary_table_sm_freq_stats)
+kable(summary_table_sm_freq_stats, caption = "Table 2.3 Mean, Median, SD for Social Media Usage Frequency by Telehealth")
 
-# Health Information Engagement Levels on Social Media X Telehealth
+```
+
+For health information-related engagement levels on social media, a different pattern was observed. Among telehealth users, the medium group had the highest percentage (39.71%), followed by the low group (31.09%) and the high group (29.1%). In contrast, the majority of telehealth non-users fell into the low group (44.68%), followed by the medium group (38.02%) and the high group (17.3%) (see Figure 2.2). On a 7-point Likert scale, where 1 represents the lowest engagement and 5 represents the highest, telehealth users showed a slightly higher average engagement level (*M* = 1.63, *SD* = 1.42) compared to non-users (*M* = 1.42, *SD* = 0.57) (see Table 2.6).
+
+The gap between non-users and users was particularly notable in the low group, with a higher percentage for non-users (44.68%) compared to users (31.09%). Additionally, the higher mean engagement score for users, along with the finding that the medium group had the highest percentage among users, while the low group had the highest percentage among non-users, suggests that telehealth users were more likely to engage in social media activities such as sharing, watching, and interacting than non-users.
+
+```{r}
+#| echo: false
+
+# RQ2_3. Data Visualization and Summary Statistics for Health Information Engagement Levels on Social Media
+
+# Bar graph
+
+data_freq_eng_group$sm_health_eng_lev_group <- factor(data_freq_eng_group$sm_health_eng_lev_group, levels = c("Low", "Medium", "High"))
+
+data_eng <- data_freq_eng_group %>% 
+  group_by(telehealth, sm_health_eng_lev_group) %>% 
+  summarize(count = n()) %>% 
+  group_by(telehealth) %>% 
+  mutate(percent_eng_group = round(count/sum(count) * 100, 2))
+  
+ggplot(data_eng, 
+       aes(x = sm_health_eng_lev_group, fill = telehealth, y = count)) +
+    geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = paste(percent_eng_group, "%", sep = "")),
+               position = position_dodge(width = 0.9), vjust = -0.5) +
+    theme_minimal() +
+   theme(axis.text.x = element_text(size = 9)) +
+    labs(
+      title = "Figure 2.2 Telehealth Usage by Health Information Engagement Levels\non Social Media", 
+      x = "Health Information Engagement Levels\non Social Media",
+      y = "Count",
+      fill = "Telehealth Usage"
+    )
+
+# Summary Statistics
 
 summary_table_eng_lev_group <- data_freq_eng_group %>% 
   group_by(telehealth, sm_health_eng_lev_group) %>% 
   summarize(Count = n()) %>% 
   mutate(Percentage = round(Count / sum(Count) * 100, 2)) %>% 
   rename(
-    Telehealth = telehealth, 
-    SM_Health_Info_Eng = sm_health_eng_lev_group) 
+    "Telehealth" = telehealth, 
+    "HI SM Eng" = sm_health_eng_lev_group) 
 
-kable(summary_table_eng_lev_group)
+kable(summary_table_eng_lev_group, caption = "Table 2.4 Telehealth & HI SM Engagement Level")
+
+summary_table_eng_lev_group_2 <- data_freq_eng_group %>% 
+  group_by(telehealth, sm_health_eng_lev_group) %>% 
+  summarize(Count = n()) %>% 
+  pivot_wider(names_from = sm_health_eng_lev_group, values_from = Count) %>% 
+  rename("Telehealth" = telehealth)
+
+kable(summary_table_eng_lev_group_2, caption = "Table 2.5 Telehealth & HI SM Engagement Level")
 
 # Mean, Median, SD for Health Information Engagement Levels on Social Media X Telehealth
 
-summary_table_eng_lev_stats <- data_long %>% 
+summary_table_eng_lev_stats <- data_freq_eng_group %>% 
   group_by(telehealth) %>% 
   summarize(SM_Health_Info_Eng_Mean = round(mean(total_sm_health_eng_lev), 2), 
             Median = median(total_sm_health_eng_lev), 
-            SD = round(sd(total_sm_health_eng_lev), 2)) %>% 
-  rename(Telehealth = telehealth) 
+            SD = round(sd(total_sm_health_eng_lev), 2), 
+            Count = n()) %>% 
+  rename("Telehealth" = telehealth, "Mean" = SM_Health_Info_Eng_Mean) 
 
-kable(summary_table_eng_lev_stats)
+kable(summary_table_eng_lev_stats, caption = "Table 2.6 Mean, Median, SD for HI SM Engagement Level by Telehealth")
 ```
 
-# RQ3. How does the distribution of cancer-related risk perception groups (low, medium, high) compare between individuals who use and do not use Telehealth services?
+### Cancer Risk Perception and Telehealth
 
-## RQ3_1. Data Cleaning
+Analysis revealed that regardless of cancer risk perception, there were more individuals who had not used telehealth in the past year (total = 2188) compared to those who had used it (total = 1676). Additionally, as cancer risk perception increased, the number of people who had used telehealth decreased (low = 636, medium = 551, high = 489). The gap between telehealth users and non-users was largest in the group with low cancer risk perception (user = 636, non-user = 969) and the difference narrowed as cancer risk awareness increased (medium cancer risk perception user = 551, medium cancer risk perception non-user = 701, and high cancer risk perception user = 489, high cancer risk perception non-user = 518). (See Figure 3.1 and Table 3.1)
 
 ```{r}
+#| echo: false
+
+# data cleaning
+
 # Selecting relevant columns for RQ3
 cancer <- hints %>% 
   select(HHID, ReceiveTelehealthCare, InterestedCaScreening, FreqWorryCancer, ChanceGetCancer2, EverythingCauseCancer, PreventNotPossible)
@@ -489,14 +651,10 @@ cancer <- cancer %>%
 
 # Recoding responses
 cancer <- cancer %>% 
-  mutate(telehealth = 
-           recode(telehealth, 
-                  "No telehealth visits in the past 12 months" = "No", 
-                  "Yes, by video" = "Yes", 
-                  "Yes, by phone call (voice only with no video)" = "Yes", 
-                  "Yes, some by video and some by phone call" = "Yes", 
-                  "Missing data (Web partial - Question Never Seen)" = "Missing", 
-                  "Missing data (Not Ascertained)" = "Missing"))
+  mutate(telehealth = fct_collapse(telehealth,
+                  "Yes" = c("Yes, by video", "Yes, by phone call (voice only with no video)", "Yes, some by video and some by phone call"), 
+                  "No" = "No telehealth visits in the past 12 months", 
+                  "Missing" = c("Missing data (Web partial - Question Never Seen)", "Missing data (Not Ascertained)")))
 
 # Creating a dataset for 5 point Likert scale
 cancer_2 <- cancer %>% 
@@ -558,9 +716,11 @@ cancer_2 <- cancer %>%
   filter(telehealth !="Missing")
 ```
 
-## RQ3_2. Grouping by Cancer Risk Perception Groups
-
 ```{r}
+#| echo: false
+
+# grouping by cancer risk perception levels
+
 # Reshape cancer risk perceptions into one longer column
 cancer_long <- cancer_2 %>% 
   pivot_longer(
@@ -579,35 +739,52 @@ cancer_risk_group <- cancer_long %>%
   distinct(HHID, telehealth, riskperceptionlevel) %>% 
   mutate(risk_group = 
            case_when(
-             riskperceptionlevel <= 1.67 ~ "Low", 
-             riskperceptionlevel <= 3.33 ~ "Medium", 
+             riskperceptionlevel <= 2.6 ~ "Low", 
+             riskperceptionlevel <= 3.2 ~ "Medium", 
              riskperceptionlevel <= 5 ~ "High"))
 ```
 
-## RQ3_3. Data Visualization
-
 ```{r}
+#| echo: false
+
+#Data Visualization
+
 # Cancer Risk Levels X Telehealth
 cancer_risk_group %>%
   mutate(risk_group = factor(risk_group, levels = c("Low", "Medium", "High"))) %>%
-  ggplot(aes(x = risk_group, fill = telehealth)) +
-  geom_bar(position = "dodge") +
+  group_by(risk_group, telehealth) %>%
+  summarize(count = n()) %>%
+  mutate(percentage = round(count / sum(count) * 100, 2)) %>%
+  ggplot(aes(x = risk_group, fill = telehealth, y = count)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = paste(percentage, "%", sep = "")), 
+            position = position_dodge(0.9), vjust = -0.5) +
   theme_minimal() +
-  labs(title = "Telehealth Usage by Cancer Risk Perception Levels", 
+  labs(title = "Figure 3.1. Telehealth Usage by Cancer Risk Perception Levels", 
        x = "Cancer Risk Perception Level", 
        y = "Number of Responses", 
        fill = "Telehealth Usage")
 ```
 
-## RQ3_4. Summary Statistics
-
 ```{r}
+#| echo: false
+
+#summary statistics
 # Cancer Risk Levels X Telehealth
 summary_table_cancer_risk_group <- cancer_risk_group %>% 
   group_by(telehealth, risk_group) %>% 
   summarize(count = n()) %>% 
-  mutate(percentage = round(count/sum(count)*100, 2))
-kable(summary_table_cancer_risk_group)
+  mutate(percentage = round(count/sum(count)*100, 2),
+         risk_group = factor(risk_group, levels = c("Low", "Medium", "High")),
+         telehealth = factor(telehealth, levels = c("Yes", "No"))) %>%
+  arrange(telehealth, risk_group)
+kable(summary_table_cancer_risk_group, caption = "Table 3.1. Telehealth Usage by Cancer Risk Perception Levels: Distribution and Proportions")
+```
+
+However, individuals who had used telehealth had a higher average cancer risk perception (m = 2.90, sd = 1.29) compared to those who had not used telehealth (m = 2.79, sd = 1.30). (See Table 3.2)
+
+```{r}
+#| echo: false
 
 # Mean, Median, SD for SME X Telehealth
 summary_table_cancer_risk_stats <- cancer_long %>% 
@@ -615,5 +792,23 @@ summary_table_cancer_risk_stats <- cancer_long %>%
   summarize(riskperception_mean = round(mean(riskperceptiondegree), 2), 
             riskperception_median = median(riskperceptiondegree), 
             riskperception_sd = round(sd(riskperceptiondegree), 2))
-kable(summary_table_cancer_risk_stats)
+kable(summary_table_cancer_risk_stats, caption = "Table 3.2. Summary Statistics of Cancer Risk Perception by Telehealth Usage")
 ```
+
+## Discussion
+
+The findings on demographic factors and telehealth usage (RQ1) reveal that younger individuals, those with higher education levels, and those with greater income are more likely to use telehealth services. Younger participants represented a higher proportion of telehealth users, suggesting that age plays a significant role in adoption, possibly due to greater comfort with technology among younger individuals. Education levels also showed a clear association, with a larger percentage of telehealth users falling into higher education categories, indicating that those with higher educational attainment may have better access to or awareness of telehealth resources. Similarly, income was positively linked to telehealth usage, with users more frequently reporting higher income levels, highlighting how financial stability can provide better access to the necessary technologies or healthcare options. In contrast, disparities were evident among ethnic groups, with telehealth usage being highest among "White" and "Asian or Pacific Islander" participants, while "Black" and "Hispanic" individuals showed significantly lower usage rates. These differences may be driven by systemic barriers such as unequal access to digital infrastructure, limited digital literacy, or cultural preferences for traditional, in-person care. Gender differences were relatively minor, with slightly higher adoption observed among females, reflecting a subtle yet balanced pattern in telehealth usage between genders.
+
+These findings highlight the urgent need for targeted interventions to overcome demographic and systemic barriers and ensure equitable access to telehealth services for underrepresented populations. Strategies such as increasing outreach and education about the benefits of telehealth in underserved communities, alongside providing affordable and reliable access to digital tools, could significantly enhance adoption rates [@scott2015]. Furthermore, healthcare policies should prioritize aligning telehealth services with the unique needs of various demographic groups [@gallegos-rejas2023]. For individuals with lower income or education levels, the development of user-friendly platforms and the provision of personalized guidance could improve engagement and utilization [@dixit2022]. Additionally, culturally sensitive approaches tailored to the preferences and needs of diverse ethnic groups are essential to fostering trust and encouraging wider acceptance of telehealth services [@willis2022].
+
+Results for RQ2 revealed that more than half of both groups (58.17% for users, 50.99% for non-users) used social media almost daily, highlighting its prevalence regardless of telehealth usage. This suggests a need to increase exposure to telehealth-related content on social media, as repeated exposure can shape perceptions [@donaldson2022association]. Telehealth providers could leverage this by creating more targeted content to engage both users and non-users, potentially boosting service adoption.
+
+The three groups (low, medium, high) for health information-related engagement levels on social media were based on relative comparison, dividing participants into upper one-third and two-thirds based on their scores. Although the engagement score of 1.67, marking the medium-high boundary, may not appear high on a 5-point Likert scale, telehealth users were most frequently in the medium group, while non-users were primarily in the low group. This suggests telehealth users engage more actively in online activities like sharing, watching, and interacting. For users, telehealth institutions could create content fostering active engagement, as seen in the ALS Ice Bucket Challenge, which inspired 17 million participants to act and donate [@phing2014does]. Engaging campaigns could similarly encourage ongoing telehealth use. For non-users, strategies should prioritize awareness-building over engagement. Educational campaigns emphasizing telehealth benefits may help increase awareness and encourage future adoption.
+
+The findings for association between cancer risk perception level and telehealth usage (RQ3) revealed that regardless of the cancer risk perception level, a greater number of individuals had not utilized telehealth compared to those who had. It suggests that telehealth adoption still face some challenges such as accessibility, awareness, or user preferences for in-person care [@hatef2024]. Especially, considering another result that showed telehealth usage decreased as cancer risk perception levels increased, it can be interpreted that individuals with higher cancer risk perceptions are more likely to seek in-person consultation for perceived severe health concerns [@moulaei2023]. Also, the largest gap between telehealth users and non-users in low cancer risk perception group may indicate that a lack of motivation for telehealth services among those who underestimate their health risks. As cancer risk perception increased, the gap narrowed, implying that higher risk perception might encourage a more balanced engagement for both face-to-face and virtual care. In average, telehealth users reported slightly higher cancer risk perceptions than non-users. This implies that individuals with heightened health concerns are more inclined to use telehealth, possibly as a convenient tool to address their health-related issues [@artinian2007].
+
+These results suggest that although telehealth has not yet been fully widespread, future healthcare service policies may utilize telehealth as a complementary tool for face-to-face services. For people with low cancer risk perception, providing healthcare services that actively use telehealth may increase accessibility and efficiency. On the other hand, for people with high cancer concerns, a strategy that provides face-to-face services as the main method while using telehealth as a supplement may be effective. This approach may contribute to devising a plan that can meet the needs of individuals with different levels of risk perception [@young2009] while maximizing the potential of telehealth.
+
+In conclusion, this study underscore the need for tailored approach for the promotion of telehealth adoption that considers democgraphic factors, social media usage and engagement, and individual's health risk perceptions. By reflecting the findings from this study, telehealth can serve as a strategical tool to supplement in-person care, improving healthcare accessibility and efficiency across diverse populations in modern health systems. \newpage
+
+# References
